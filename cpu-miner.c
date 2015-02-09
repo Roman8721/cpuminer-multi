@@ -127,7 +127,7 @@ static json_t *opt_config;
 static const bool opt_time = true;
 static algorithm_t opt_algo;
 static int opt_scrypt_n = 1024;
-static int opt_n_threads;
+static int opt_n_threads = 0;
 static int opt_affinity = -1;
 static int opt_priority = 0;
 int num_cpus;
@@ -1603,7 +1603,7 @@ static void parse_arg(int key, char *arg) {
         break;
     case 't':
         v = atoi(arg);
-        if (v < 1 || v > 9999) /* sanity check */
+        if (v < 0 || v > 9999) /* sanity check */
             show_usage_and_exit(1);
         opt_n_threads = v;
         break;
