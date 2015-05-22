@@ -1054,6 +1054,7 @@ static void *miner_thread(void *userdata) {
     struct work work = { { 0 } };
     uint32_t max_nonce;
     uint32_t end_nonce = 0xffffffffU / opt_n_threads * (thr_id + 1) - 0x20;
+    double olddiff = 1.0;
     char s[16];
     int i;
 
@@ -1122,11 +1123,13 @@ static void *miner_thread(void *userdata) {
             while (!jsonrpc_2 && time(NULL) >= g_work_time + 120)
                 sleep(1);
             pthread_mutex_lock(&g_work_lock);
-            if ((*nonceptr) >= end_nonce
+            if (((*nonceptr) >= end_nonce
            	    && !(jsonrpc_2 ? memcmp(work.data, g_work.data, 39) ||
            	            memcmp(((uint8_t*) work.data) + 43, ((uint8_t*) g_work.data) + 43, 33)
-           	      : memcmp(work.data, g_work.data, 76)))
+           	      : memcmp(work.data, g_work.data, 76))) || stratum.job.diff != olddiff) {
                 stratum_gen_work(&stratum, &g_work);
+                olddiff = stratum.job.diff;
+           }
         } else {
             /* obtain new work from internal workio thread */
             pthread_mutex_lock(&g_work_lock);
