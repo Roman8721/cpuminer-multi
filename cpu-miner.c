@@ -143,7 +143,8 @@ static char const usage2[] =
   -T, --timeout=N       timeout for long polling, in seconds (default: none)\n\
   -s, --scantime=N      upper bound on time spent scanning current work when\n\
                           long polling is unavailable, in seconds (default: 5)\n\
-  -d, --diff            Divide difficulty by this factor (std is 1) \n\
+  -d, --diff-factor     Divide req. difficulty by this factor (std is 1.0)\n\
+  -m, --diff-multiplier Multiply req. difficulty by this factor (std is 1.0)\n\
       --no-longpoll     disable X-Long-Polling support\n\
       --no-stratum      disable X-Stratum support\n\
       --no-redirect     ignore requests to change the URL of the mining server\n\
@@ -174,7 +175,7 @@ static char const short_options[] =
 #ifdef HAVE_SYSLOG_H
                 "S"
 #endif
-        "a:c:d:Dhp:Px:qr:R:s:t:T:o:u:O:V";
+        "a:c:d:Dhm:p:Px:qr:R:s:t:T:o:u:O:V";
 
 static struct option const options[] = {
         { "algo", 1, NULL, 'a' },
@@ -187,7 +188,8 @@ static struct option const options[] = {
         { "cpu-affinity", 1, NULL, 1020 },
         { "cpu-priority", 1, NULL, 1021 },
         { "debug", 0, NULL, 'D' },
-        { "diff", 1, NULL, 'd' },
+        { "diff-factor", 1, NULL, 'd' },
+        { "diff-multiplier", 1, NULL, 'm' },
         { "extranonce-subscribe", 0, NULL, 1016 },
         { "help", 0, NULL, 'h' },
         { "no-longpoll", 0, NULL, 1003 },
@@ -1712,6 +1714,12 @@ static void parse_arg(int key, char *arg) {
         if (d == 0) /* sanity check */
             show_usage_and_exit(1);
         opt_diff_factor = d;
+        break;
+    case 'm':
+        d = atof(arg);
+        if (d == 0.) /* sanity check */
+            show_usage_and_exit(1);
+        opt_diff_factor = 1.0 / d;
         break;
     case 'S':
         use_syslog = true;
