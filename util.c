@@ -927,6 +927,60 @@ out:
 	return ret;
 }
 
+bool subscribe_extranonce(struct stratum_ctx *sctx)
+{
+	json_t *val = NULL, *res_val, *err_val;
+	char *s, *sret;
+	json_error_t err;
+	bool ret = false;
+
+	s = malloc(80);
+	sprintf(s, "{\"id\": 2, \"method\": \"mining.extranonce.subscribe\", \"params\": []}");
+
+	if (!stratum_send_line(sctx, s))
+		goto out;
+
+	while (1) {
+		if (!socket_full(sctx->sock, 2)) {
+			applog(LOG_DEBUG, "Timed out waiting for response extranonce.subscribe");
+			/* some pool doesnt send anything, so this is normal */
+			ret = true;
+			goto out;
+		}
+		sret = stratum_recv_line(sctx);
+		if (!sret)
+			goto out;
+		if (!stratum_handle_method(sctx, sret))
+			break;
+		free(sret);
+	}
+
+	val = JSON_LOADS(sret, &err);
+	free(sret);
+	if (!val) {
+		applog(LOG_ERR, "JSON decode failed(%d): %s", err.line, err.text);
+		goto out;
+	}
+
+	res_val = json_object_get(val, "result");
+	err_val = json_object_get(val, "error");
+
+	if (!res_val || json_is_false(res_val) ||
+	    (err_val && !json_is_null(err_val)))  {
+		applog(LOG_ERR, "Cannot subscribe to mining.extranonce");
+		goto out;
+	}
+
+	ret = true;
+
+out:
+	free(s);
+	if (val)
+		json_decref(val);
+
+	return ret;
+}
+
 bool stratum_authorize(struct stratum_ctx *sctx, const char *user, const char *pass)
 {
 	json_t *val = NULL, *res_val, *err_val;
@@ -940,7 +994,7 @@ bool stratum_authorize(struct stratum_ctx *sctx, const char *user, const char *p
                 user, pass);
 	} else {
         s = malloc(80 + strlen(user) + strlen(pass));
-        sprintf(s, "{\"id\": 2, \"method\": \"mining.authorize\", \"params\": [\"%s\", \"%s\"]}",
+        sprintf(s, "{\"id\": 3, \"method\": \"mining.authorize\", \"params\": [\"%s\", \"%s\"]}",
                 user, pass);
 	}
 
@@ -1132,6 +1186,39 @@ static bool stratum_reconnect(struct stratum_ctx *sctx, json_t *params)
 	return true;
 }
 
+static bool stratum_extranonce(struct stratum_ctx *sctx, json_t *params)
+{
+	const char *xnonce1;
+	int xn2_size;
+
+	xnonce1 = json_string_value(json_array_get(params, 0));
+	if (!xnonce1) {
+		applog(LOG_ERR, "Failed to get extranonce1");
+		return false;
+	}
+	xn2_size = json_integer_value(json_array_get(params, 1));
+	if (!xn2_size) {
+		applog(LOG_ERR, "Failed to get extranonce2_size");
+		return false;
+	}
+	if (xn2_size < 0 || xn2_size > 100) {
+		applog(LOG_ERR, "Invalid value of extranonce2_size");
+		return false;
+	}
+
+	pthread_mutex_lock(&sctx->work_lock);
+	free(sctx->xnonce1);
+	sctx->xnonce1_size = strlen(xnonce1) / 2;
+	sctx->xnonce1 = malloc(sctx->xnonce1_size);
+	hex2bin(sctx->xnonce1, xnonce1, sctx->xnonce1_size);
+	sctx->xnonce2_size = xn2_size;
+	pthread_mutex_unlock(&sctx->work_lock);
+
+	applog(LOG_NOTICE, "Extranonce change requested");
+
+	return true;
+}
+
 static bool stratum_get_version(struct stratum_ctx *sctx, json_t *id)
 {
 	char *s;
@@ -1209,6 +1296,10 @@ bool stratum_handle_method(struct stratum_ctx *sctx, const char *s)
         }
         if (!strcasecmp(method, "mining.set_difficulty")) {
             ret = stratum_set_difficulty(sctx, params);
+            goto out;
+        }
+        if (!strcasecmp(method, "mining.set_extranonce")) {
+            ret = stratum_extranonce(sctx, params);
             goto out;
         }
         if (!strcasecmp(method, "client.reconnect")) {

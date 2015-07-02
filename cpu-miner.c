@@ -111,6 +111,7 @@ static bool submit_old = false;
 bool use_syslog = false;
 static bool opt_background = false;
 static bool opt_quiet = false;
+static bool opt_extranonce_subscribe = false;
 static int opt_retries = -1;
 static int opt_fail_pause = 10;
 bool jsonrpc_2 = false;
@@ -174,6 +175,7 @@ static char const usage2[] =
   -u, --user=USERNAME   username for mining server\n\
   -p, --pass=PASSWORD   password for mining server\n\
       --cert=FILE       certificate for mining server using SSL\n\
+      --extranonce-subscribe  Enable 'extranonce' stratum subscribe\n\
   -x, --proxy=[PROTOCOL://]HOST[:PORT]  connect through a proxy\n\
   -t, --threads=N       number of miner threads (default: number of processors)\n\
   -r, --retries=N       number of times to retry if a network call fails\n\
@@ -221,6 +223,7 @@ static struct option const options[] = {
         { "cert", 1, NULL, 1001 },
         { "config", 1, NULL, 'c' },
         { "debug", 0, NULL, 'D' },
+        { "extranonce-subscribe", 0, NULL, 1016 },
         { "help", 0, NULL, 'h' },
         { "no-longpoll", 0, NULL, 1003 },
         { "no-redirect", 0, NULL, 1009 },
@@ -1351,6 +1354,7 @@ static void *stratum_thread(void *userdata) {
 
             if (!stratum_connect(&stratum, stratum.url)
                     || !stratum_subscribe(&stratum)
+                    || (opt_extranonce_subscribe && !subscribe_extranonce(&stratum))
                     || !stratum_authorize(&stratum, rpc_user, rpc_pass)) {
                 stratum_disconnect(&stratum);
                 if (opt_retries >= 0 && ++failures > opt_retries) {
@@ -1644,6 +1648,9 @@ static void parse_arg(int key, char *arg) {
         break;
     case 1009:
         opt_redirect = false;
+        break;
+    case 1016:
+        opt_extranonce_subscribe = true;
         break;
     case 'S':
         use_syslog = true;
