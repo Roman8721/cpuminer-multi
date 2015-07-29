@@ -61,6 +61,13 @@ case $target in
     ;;
 esac
 
+have_sdk_dir=false
+if test -n "$SDK_DIR"; then
+    have_sdk_dir=true
+    CPPFLAGS="-I$SDK_DIR/include $CPPFLAGS"
+    LDFLAGS="-L$SDK_DIR/lib/$target $LDFLAGS"
+fi
+
 AC_ARG_ENABLE([assembly],
   AS_HELP_STRING([--disable-assembly], [disable assembly-language routines]))
 if test x$enable_assembly != xno; then
@@ -124,6 +131,20 @@ then
 	JANSSON_LIBS="compat/jansson/libjansson.a"
 else
 	JANSSON_LIBS=-ljansson
+fi
+
+PKG_PROG_PKG_CONFIG()
+
+if test "x$have_sdk_dir" = "xtrue"; then
+    if test "x$have_x86_64" = xtrue; then
+        ARCH_DIR=x86_64
+    else
+        ARCH_DIR=x86
+    fi
+    echo PKG_CONFIG_PATH
+    PKG_CONFIG="${PKG_CONFIG:-pkg-config} --define-variable=arch=$ARCH_DIR --define-variable=target=$target --define-variable=sgminersdkdir=$SDK_DIR"
+    PKG_CONFIG_PATH="$SDK_DIR/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    export PKG_CONFIG_PATH
 fi
 
 LIBCURL_CHECK_CONFIG(, 7.15.2, ,
