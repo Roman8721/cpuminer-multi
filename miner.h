@@ -138,11 +138,7 @@ static inline void le32enc(void *pp, uint32_t x)
 #define JSON_LOADS(str, err_ptr) json_loads((str), (err_ptr))
 #endif
 
-#ifdef BUILD_NUMBER
-#define USER_AGENT PACKAGE_NAME "/" PACKAGE_VERSION "-" BUILD_NUMBER
-#else
 #define USER_AGENT PACKAGE_NAME "/" PACKAGE_VERSION
-#endif
 
 void sha256_init(uint32_t *state);
 void sha256_transform(uint32_t *state, const uint32_t *block, int swap);
