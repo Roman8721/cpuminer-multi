@@ -147,9 +147,18 @@ if test "x$have_sdk_dir" = "xtrue"; then
     export PKG_CONFIG_PATH
 fi
 
-LIBCURL_CHECK_CONFIG(, 7.15.2, ,
-  [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
+if test "x$have_win32" != xtrue; then
+    PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.25.0], [AC_DEFINE([CURL_HAS_KEEPALIVE], [1], [Defined if version of curl supports keepalive.])],
+    [PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.15.2], ,[AC_MSG_ERROR([Missing required libcurl dev >= 7.15.2])])])
+else
+    PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.25.0], ,[AC_MSG_ERROR([Missing required libcurl dev >= 7.25.0])])
+    AC_DEFINE([CURL_HAS_KEEPALIVE], [1])
+fi
+AC_DEFINE([HAVE_LIBCURL], [1], [Defined to 1 if libcurl support built in])
 
+AC_SUBST(LIBCURL_CFLAGS)
+AC_SUBST(LIBCURL_CPPFLAGS)
+AC_SUBST(LIBCURL_LIBS)
 AC_SUBST(JANSSON_LIBS)
 AC_SUBST(PTHREAD_FLAGS)
 AC_SUBST(PTHREAD_LIBS)
