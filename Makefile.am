@@ -81,6 +81,7 @@ minerd_SOURCES	= elist.h \
 		  crypto/c_blake256.c \
 		  crypto/c_jh.c \
 		  crypto/c_skein.c \
+		  crypto/mshabal.c \
 		  crypto/hash.c \
 		  crypto/aesb.c
 if USE_ASM

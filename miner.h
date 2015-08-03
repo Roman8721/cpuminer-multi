@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <jansson.h>
 #include <curl/curl.h>
+#include <malloc.h>
 
 #include "algorithm.h"
 
@@ -28,7 +29,6 @@
 # elif defined _AIX
 #  define alloca __alloca
 # elif defined _MSC_VER
-#  include <malloc.h>
 #  define alloca _alloca
 # elif !defined HAVE_ALLOCA
 #  ifdef  __cplusplus
@@ -37,6 +37,24 @@ extern "C"
 void *alloca (size_t);
 # endif
 #endif
+
+static inline void *amalloc(size_t alignment, size_t size) {
+#ifdef _WIN32
+    return _aligned_malloc(size, alignment);
+#else
+    return memalign(alignment, size);
+#endif
+}
+
+
+static inline void afree(void *p) {
+#ifdef _WIN32
+    _aligned_free(p);
+#else
+    free(p);
+#endif
+}
+
 
 #ifdef HAVE_SYSLOG_H
 #include <syslog.h>
