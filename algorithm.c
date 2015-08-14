@@ -28,6 +28,7 @@ algorithm_t algos[] = {
     { "groestl",     ALGO_GROESTL,    "Groestl", sha256, sha256, scanhash_groestl, groestlhash, init_groestl_contexts, NULL },
     { "myr-groestl", ALGO_MYRGROESTL, "Myriadcoin-groestl", sha256, sha256, scanhash_myriadcoin_groestl, myriadcoin_groestlhash, init_myriadcoin_groestl_contexts, NULL },
     { "pluck",       ALGO_PLUCK,      "pluck(128)", sha256d, sha256d, scanhash_pluck, pluckhash, init_pluck_contexts, NULL },
+    { "whirlcoin",   ALGO_WHIRL,      "WhirlCoin", sha256d, sha256d, scanhash_whirlcoin, whirlcoinhash, init_whirlcoin_contexts, NULL },
     { "whirlpoolx",  ALGO_WHIRLPOOLX, "WhirlpoolX", sha256d, sha256d, scanhash_whirlpoolx, whirlpoolxhash, init_whirlpoolx_contexts, NULL },
 
     { "cryptonight", ALGO_CRYPTONIGHT, "cryptonight", sha256d, sha256d, scanhash_cryptonight, NULL, NULL, NULL },

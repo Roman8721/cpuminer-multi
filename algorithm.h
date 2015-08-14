@@ -36,6 +36,7 @@ typedef enum {
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
     ALGO_CRYPTONIGHT, /* CryptoNight */
+    ALGO_WHIRL,       /* Whirlcoin */
     ALGO_WHIRLPOOLX,  /* WhirlpoolX */
 } algorithm_type_t;
 
@@ -62,6 +63,7 @@ SCANHASH(myriadcoin_groestl);
 SCANHASH(pentablake);
 SCANHASH(axiom);
 SCANHASH(cryptonight);
+SCANHASH(whirlcoin);
 SCANHASH(whirlpoolx);
 
 typedef struct _algorithm_t {
