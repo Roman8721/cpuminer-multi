@@ -13,6 +13,7 @@ algorithm_t algos[] = {
     { "lbry",        ALGO_LBRY,       "Lbry", sha256d, sha256d, scanhash_lbry, lbryhash, init_lbry_contexts, NULL },
     { "heavy",       ALGO_HEAVY,      "Heavy", sha256d, sha256d, scanhash_heavy, heavyhash, init_heavy_contexts, NULL },
     { "keccak",      ALGO_KECCAK,     "Keccak", sha256, sha256, scanhash_keccak, keccakhash, init_keccak_contexts, NULL },
+    { "twe",         ALGO_TWE,        "Twe", sha256, sha256, scanhash_twe, twehash, init_twe_contexts, NULL },
     { "shavite3",    ALGO_SHAVITE3,   "Shavite3", sha256d, sha256d, scanhash_ink, inkhash, init_ink_contexts, NULL },
     { "skein",       ALGO_SKEIN,      "Skein", sha256d, sha256d, scanhash_skein, skeinhash, init_skein_contexts, NULL },
     { "quark",       ALGO_QUARK,      "Quark", sha256d, sha256d, scanhash_quark, quarkhash, init_quark_contexts, NULL },
