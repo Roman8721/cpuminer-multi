@@ -34,6 +34,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/qubit.c \
 		  algorithm/skein.c \
 		  algorithm/skein2.c \
+		  algorithm/s3.c \
 		  algorithm/ink.c \
 		  algorithm/groestl.c \
 		  algorithm/myriadcoin-groestl.c \
