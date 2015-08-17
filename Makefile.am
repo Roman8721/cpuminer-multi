@@ -24,6 +24,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm.c \
 		  algorithm/sha2.c \
 		  algorithm/scrypt.c \
+		  algorithm/yescrypt.c \
 		  algorithm/keccak.c \
 		  algorithm/twe.c \
 		  algorithm/heavy.c \
@@ -78,6 +79,9 @@ minerd_SOURCES	= elist.h \
 		  sha3/sph_fugue.c \
 		  sha3/sph_shabal.c \
 		  sha3/sph_whirlpool.c \
+		  yescrypt/sha256_Y.c \
+		  yescrypt/yescrypt-best.c \
+		  yescrypt/yescryptcommon.c \
 		  crypto/oaes_lib.c \
 		  crypto/c_keccak.c \
 		  crypto/c_groestl.c \

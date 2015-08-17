@@ -1033,6 +1033,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
         switch (opt_algo.type) {
             case ALGO_SCRYPT:
             case ALGO_PLUCK:
+            case ALGO_YESCRYPT:
                 work_set_target(work, sctx->job.diff / (65536.0 * opt_diff_factor));
                 break;
             case ALGO_FRESH:
@@ -1176,6 +1177,9 @@ static void *miner_thread(void *userdata) {
                 break;
             case ALGO_CRYPTONIGHT:
                 max64 = 0x40LL;
+                break;
+            case ALGO_YESCRYPT:
+                max64 = 0x3fffff;
                 break;
             case ALGO_FRESH:
                 max64 = 0x3ffff;
