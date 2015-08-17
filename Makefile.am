@@ -24,6 +24,8 @@ minerd_SOURCES	= elist.h \
 		  algorithm.c \
 		  algorithm/sha2.c \
 		  algorithm/scrypt.c \
+		  algorithm/dcrypt.c \
+		  algorithm/dcrypt_sha256.c \
 		  algorithm/yescrypt.c \
 		  algorithm/keccak.c \
 		  algorithm/twe.c \

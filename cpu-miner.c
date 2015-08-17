@@ -654,8 +654,13 @@ static bool submit_upstream_work(CURL *curl, struct work *work) {
                     reason ? json_string_value(reason) : NULL );
         } else {
             /* build hex string */
-            for (i = 0; i < 76; i++)
-                le32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
+            if (opt_algo.type == ALGO_DCRYPT) {
+                for (i = 0; i < 76; i++)
+                    be32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
+            } else {
+                for (i = 0; i < 76; i++)
+                    le32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
+            }
             str = bin2hex((unsigned char *) work->data, 76);
             if (unlikely(!str)) {
                 applog(LOG_ERR, "submit_upstream_work OOM");
