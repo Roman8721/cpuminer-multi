@@ -42,6 +42,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/cryptonight.c \
 		  algorithm/fresh.c \
 		  algorithm/lbry.c \
+		  algorithm/nist5.c \
 		  algorithm/x11.c \
 		  algorithm/x13.c \
 		  algorithm/x14.c \

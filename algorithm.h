@@ -27,6 +27,7 @@ typedef enum {
     ALGO_SKEIN,       /* Skein */
     ALGO_SKEIN2,      /* Woodcoin */
     ALGO_S3,          /* S3 */
+    ALGO_NIST5,       /* Nist5 */
     ALGO_SHAVITE3,    /* Shavite3 */
     ALGO_BLAKE,       /* Blake */
     ALGO_FRESH,       /* Fresh */
@@ -56,6 +57,7 @@ SCANHASH(qubit);
 SCANHASH(skein);
 SCANHASH(skein2);
 SCANHASH(s3);
+SCANHASH(nist5);
 SCANHASH(ink);
 SCANHASH(blake);
 SCANHASH(fresh);

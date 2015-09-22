@@ -20,6 +20,7 @@ algorithm_t algos[] = {
     { "skein",       ALGO_SKEIN,      "Skein", sha256d, sha256d, scanhash_skein, skeinhash, init_skein_contexts, NULL },
     { "skein2",      ALGO_SKEIN2,     "Skein2", sha256d, sha256d, scanhash_skein2, skein2hash, init_skein2_contexts, NULL },
     { "s3",          ALGO_S3,         "S3", sha256d, sha256d, scanhash_s3, s3hash, init_s3_contexts, NULL },
+    { "nist5",       ALGO_NIST5,      "Nist5", sha256d, sha256d, scanhash_nist5, nist5hash, init_nist5_contexts, NULL },
     { "quark",       ALGO_QUARK,      "Quark", sha256d, sha256d, scanhash_quark, quarkhash, init_quark_contexts, NULL },
     { "qubit",       ALGO_QUBIT,      "Qubit", sha256d, sha256d, scanhash_qubit, qubithash, init_qubit_contexts, NULL },
     { "pentablake",  ALGO_PENTABLAKE, "pentablake", sha256d, sha256d, scanhash_pentablake, pentablakehash, init_pentablake_contexts, NULL },
