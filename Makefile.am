@@ -24,6 +24,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm.c \
 		  algorithm/sha2.c \
 		  algorithm/scrypt.c \
+		  algorithm/scrypt-jane.c \
 		  algorithm/dcrypt.c \
 		  algorithm/dcrypt_sha256.c \
 		  algorithm/yescrypt.c \
@@ -109,7 +110,7 @@ endif
 
 minerd_LDFLAGS	= $(PTHREAD_FLAGS)
 minerd_LDADD	= @LIBCURL_LIBS@ @OPENSSL_LIBS@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@
-minerd_CPPFLAGS = @LIBCURL_CPPFLAGS@ @LIBCURL_CFLAGS@
+minerd_CPPFLAGS = @LIBCURL_CPPFLAGS@ @LIBCURL_CFLAGS@ -DSCRYPT_KECCAK512 -DSCRYPT_CHACHA -DSCRYPT_CHOOSE_COMPILETIME
 minerd_CFLAGS   = 
 
 if HAVE_WINDOWS

@@ -14,6 +14,7 @@ extern void free_ ## name ## _contexts();
 typedef enum {
     ALGO_UNK,
     ALGO_SCRYPT,      /* scrypt(1024,1,1) */
+    ALGO_SCRYPTJANE,  /* scrypt-jane */
     ALGO_SHA256D,     /* SHA-256d */
     ALGO_DCRYPT,      /* dcrypt */
     ALGO_YESCRYPT,    /* yescypt */
@@ -47,6 +48,7 @@ typedef enum {
 
 SCANHASH(sha256d);
 SCANHASH(scrypt);
+SCANHASH(scrypt_jane);
 SCANHASH(dcrypt);
 SCANHASH(yescrypt);
 SCANHASH(keccak);

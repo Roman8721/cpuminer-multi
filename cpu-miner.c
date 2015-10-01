@@ -551,6 +551,7 @@ static void share_result(int result, struct work *work, const char *reason) {
                 result ? "(yay!!!)" : "(booooo)");
         break;
     case ALGO_AXIOM:
+    case ALGO_SCRYPTJANE:
         sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);
         applog(LOG_INFO, "accepted: %lu/%lu (%.2f%%), %s hash/s %s",
                 accepted_count, accepted_count + rejected_count,
@@ -605,6 +606,9 @@ static bool submit_upstream_work(CURL *curl, struct work *work) {
             if (opt_algo.type == ALGO_LBRY) {
                 le32enc(&ntime, work->data[25]);
                 le32enc(&nonce, work->data[27]);
+            } else if (opt_algo.type == ALGO_SCRYPTJANE) {
+                le32enc(&ntime, work->data[17]);
+                be32enc(&nonce, work->data[19]);
             } else {
                 le32enc(&ntime, work->data[17]);
                 le32enc(&nonce, work->data[19]);
@@ -660,6 +664,9 @@ static bool submit_upstream_work(CURL *curl, struct work *work) {
             } else {
                 for (i = 0; i < 76; i++)
                     le32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
+            }
+            if (opt_algo.type == ALGO_SCRYPTJANE) {
+                    be32enc(&work->data[19], work->data[19]);
             }
             str = bin2hex((unsigned char *) work->data, 76);
             if (unlikely(!str)) {
@@ -1037,6 +1044,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
 
         switch (opt_algo.type) {
             case ALGO_SCRYPT:
+            case ALGO_SCRYPTJANE:
             case ALGO_PLUCK:
             case ALGO_YESCRYPT:
                 work_set_target(work, sctx->job.diff / (65536.0 * opt_diff_factor));
@@ -1240,6 +1248,7 @@ static void *miner_thread(void *userdata) {
                         hashes_done, thr_hashrates[thr_id]);
                 break;
             case ALGO_AXIOM:
+            case ALGO_SCRYPTJANE:
                 sprintf(s, thr_hashrates[thr_id] >= 1e3 ? "%.0f" : "%.2f",
                         thr_hashrates[thr_id]);
                 applog(LOG_INFO, "thread %d: %llu hashes, %s hash/s", thr_id,
@@ -1263,6 +1272,7 @@ static void *miner_thread(void *userdata) {
                     applog(LOG_INFO, "Total: %s H/s", hashrate);
                     break;
                 case ALGO_AXIOM:
+                case ALGO_SCRYPTJANE:
                     sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);
                     applog(LOG_INFO, "Total: %s hash/s", s);
                     break;
