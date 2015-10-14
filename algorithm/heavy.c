@@ -46,11 +46,11 @@ static void combine_hashes(uint32_t *out, uint32_t *hash1, uint32_t *hash2, uint
 	}
 }
 
-void heavyhash(void* output, const void* input)
+void heavy_hash(void* output, const void* input, int len)
 {
 	uint32_t hash1[16], hash2[16], hash3[16], hash4[16], hash5[16];
 
-	HEFTY1(input, 80, (unsigned char *)hash1);
+	HEFTY1(input, len, (unsigned char *)hash1);
 
 	/* HEFTY1 is new, so take an extra security measure to eliminate
 	 * the possiblity of collisions:
@@ -61,7 +61,7 @@ void heavyhash(void* output, const void* input)
 	 */
 	SHA256_CTX sha256;
 	SHA256_Init(&sha256);
-	SHA256_Update(&sha256, input, 80);
+	SHA256_Update(&sha256, input, len);
 	SHA256_Update(&sha256, hash1, sizeof(hash1));
 	SHA256_Final((unsigned char*)hash2, &sha256);
 
@@ -71,19 +71,29 @@ void heavyhash(void* output, const void* input)
 	 * and BLAKE512.
 	 */
 
-	sph_keccak512(&ctx.keccak, input, 80);
+	sph_keccak512(&ctx.keccak, input, len);
 	sph_keccak512(&ctx.keccak, hash1, sizeof(hash1));
 	sph_keccak512_close(&ctx.keccak, hash3);
 
-	sph_groestl512(&ctx.groestl, input, 80);
+	sph_groestl512(&ctx.groestl, input, len);
 	sph_groestl512(&ctx.groestl, hash1, sizeof(hash1));
 	sph_groestl512_close(&ctx.groestl, hash4);
 
-	sph_blake512(&ctx.blake, input, 80);
+	sph_blake512(&ctx.blake, input, len);
 	sph_blake512(&ctx.blake, hash1, sizeof(hash1));
 	sph_blake512_close(&ctx.blake, hash5);
 
 	combine_hashes((uint32_t *)output, hash2, hash3, hash4, hash5);
+}
+
+void heavyhash(void* output, const void* input)
+{
+	heavy_hash(output, input, 80);
+}
+
+void heavy(unsigned char* output, const unsigned char* input, int len)
+{
+	heavy_hash(output, input, len);
 }
 
 int scanhash_heavy(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
