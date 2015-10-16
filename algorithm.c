@@ -7,7 +7,7 @@
 
 algorithm_t algos[] = {
     { "scrypt",      ALGO_SCRYPT,     "scrypt(1024, 1, 1)", sha256d, sha256d, scanhash_scrypt, scrypthash, init_scrypt_contexts, NULL },
-    { "scrypt-jane", ALGO_SCRYPTJANE, "scrypt-jane", sha256d, sha256d, scanhash_scrypt_jane, scrypt_janehash, NULL, NULL },
+    { "scrypt-jane", ALGO_SCRYPTJANE, "scrypt-jane", sha256d, sha256d, scanhash_scrypt_jane, scrypt_janehash, init_scrypt_jane_contexts, NULL },
     { "dscrypt",     ALGO_DCRYPT,     "dcrypt", sha256d, sha256d, scanhash_dcrypt, dcrypthash, init_dcrypt_contexts, NULL },
     { "yescrypt",    ALGO_YESCRYPT,   "yescrypt", sha256d, sha256d, scanhash_yescrypt, yescrypthash, NULL, NULL },
     { "sha256d",     ALGO_SHA256D,    "SHA-256d", sha256d, sha256d, scanhash_sha256d, NULL, NULL, NULL },

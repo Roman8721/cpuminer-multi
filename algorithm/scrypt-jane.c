@@ -44,6 +44,19 @@ inline int max ( int a, int b ) { return a > b ? a : b; }
 inline int min ( int a, int b ) { return a < b ? a : b; }
 #endif
 
+/* Move init out of loop, so init once externally, and then use one single memcpy with that bigger memory block */
+typedef struct {
+	int time;
+} scrypt_janehash_context_holder;
+
+/* no need to copy, because close reinit the context */
+static THREADLOCAL scrypt_janehash_context_holder ctx;
+
+void init_scrypt_jane_contexts(void *dummy)
+{
+	ctx.time = *(int *)dummy;
+}
+
 typedef struct scrypt_aligned_alloc_t {
 	uint8_t *mem, *ptr;
 } scrypt_aligned_alloc;
@@ -107,10 +120,10 @@ const unsigned char maxNfactor = 30;
 unsigned char GetNfactor(unsigned int nTimestamp) {
 	int l = 0;
 
-	if (nTimestamp <= 1402845776)
+	if (nTimestamp <= ctx.time)
 		return minNfactor;
 
-	unsigned long int s = nTimestamp - 1402845776;
+	unsigned long int s = nTimestamp - ctx.time;
 	while ((s >> 1) > 3) {
 		l += 1;
 		s >>= 1;

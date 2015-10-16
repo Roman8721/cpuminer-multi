@@ -1485,12 +1485,16 @@ void print_hash_tests(void)
 	//buf[0] = 1; buf[64] = 2; // for endian tests
 
 	for (algorithm_t* algo = algos; algo->name; algo++) {
-		if (algo->init_contexts) algo->init_contexts(&scrypt_n);
+		int n = scrypt_n;
+		if (algo->type == ALGO_SCRYPTJANE) {
+			n = 1388361600;
+		}
+		if (algo->init_contexts) algo->init_contexts(&n);
 		if (algo->simplehash) {
 			algo->simplehash(hash, buf);
 			printpfx(algo->name, hash);
 		}
-		if (algo->free_contexts) algo->free_contexts(&scrypt_n);
+		if (algo->free_contexts) algo->free_contexts(&n);
 	}
 
 	printf("\n");

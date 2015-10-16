@@ -1600,6 +1600,8 @@ static void parse_arg(int key, char *arg) {
                 if (arg[v] == '\0') {
                     if (algo->type == ALGO_PLUCK) {
                         opt_scrypt_n = 128;
+                    } else if (algo->type == ALGO_SCRYPTJANE) {
+                        opt_scrypt_n = 1388361600;
                     }
                     opt_algo = *algo;
                     break;
