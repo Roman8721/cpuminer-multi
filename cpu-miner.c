@@ -660,16 +660,16 @@ static bool submit_upstream_work(CURL *curl, struct work *work) {
         } else {
             /* build hex string */
             if (opt_algo.type == ALGO_DCRYPT) {
-                for (i = 0; i < 76; i++)
+                for (i = 0; i < 80; i++)
                     be32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
             } else {
-                for (i = 0; i < 76; i++)
+                for (i = 0; i < 80; i++)
                     le32enc(((char*)work->data) + i, *((uint32_t*) (((char*)work->data) + i)));
             }
             if (opt_algo.type == ALGO_SCRYPTJANE) {
                     be32enc(&work->data[19], work->data[19]);
             }
-            str = bin2hex((unsigned char *) work->data, 76);
+            str = bin2hex((unsigned char *) work->data, 128);
             if (unlikely(!str)) {
                 applog(LOG_ERR, "submit_upstream_work OOM");
                 goto out;
