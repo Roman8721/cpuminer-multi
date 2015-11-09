@@ -8,7 +8,8 @@
 #include "sha3/sph_blake.h"
 #include "sha3/sph_keccak.h"
 #include "sha3/sph_skein.h"
-#include "sha3/sph_groestl.h"
+#include "sha3/sph_cubehash.h"
+#include "sha3/sph_bmw.h"
 #include "lyra2/Lyra2.h"
 
 //#define DEBUG_ALGO
@@ -17,22 +18,24 @@
 typedef struct {
 	sph_blake256_context	blake;
 	sph_keccak256_context	keccak;
+	sph_cubehash256_context	cubehash;
 	sph_skein256_context	skein;
-	sph_groestl256_context	groestl;
-} lyra2rehash_context_holder;
+	sph_bmw256_context	bmw;
+} lyra2rev2hash_context_holder;
 
 /* no need to copy, because close reinit the context */
-static THREADLOCAL lyra2rehash_context_holder ctx;
+static THREADLOCAL lyra2rev2hash_context_holder ctx;
 
-void init_lyra2re_contexts(void *dummy)
+void init_lyra2rev2_contexts(void *dummy)
 {
 	sph_blake256_init(&ctx.blake);
 	sph_keccak256_init(&ctx.keccak);
+	sph_cubehash256_init(&ctx.cubehash);
 	sph_skein256_init(&ctx.skein);
-	sph_groestl256_init(&ctx.groestl);
+	sph_bmw256_init(&ctx.bmw);
 }
 
-void lyra2rehash(void *output, const void *input)
+void lyra2rev2hash(void *output, const void *input)
 {
 	uint32_t hashA[16], hashB[16];
 
@@ -45,18 +48,25 @@ void lyra2rehash(void *output, const void *input)
 	sph_keccak256 (&ctx.keccak,hashA, 32);
 	sph_keccak256_close(&ctx.keccak, hashB);
 
-	LYRA2((void*)hashA, 32, (const void*)hashB, 32, (const void*)hashB, 32, 1, 8, 8);
+	sph_cubehash256(&ctx.cubehash, hashB, 32);
+	sph_cubehash256_close(&ctx.cubehash, hashA);
 
-	sph_skein256 (&ctx.skein, hashA, 32);
-	sph_skein256_close(&ctx.skein, hashB);
+	LYRA2(hashB, 32, hashA, 32, hashA, 32, 1, 4, 4);
 
-	sph_groestl256 (&ctx.groestl, hashB, 32);
-	sph_groestl256_close(&ctx.groestl, hashA);
+
+	sph_skein256 (&ctx.skein, hashB, 32);
+	sph_skein256_close(&ctx.skein, hashA);
+
+	sph_cubehash256(&ctx.cubehash, hashA, 32);
+	sph_cubehash256_close(&ctx.cubehash, hashB);
+
+	sph_bmw256(&ctx.bmw, hashB, 32);
+	sph_bmw256_close(&ctx.bmw, hashA);
 
 	memcpy(output, hashA, 32);
 }
 
-int scanhash_lyra2re(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
+int scanhash_lyra2rev2(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done)
 {
 	uint32_t n = pdata[19] - 1;
@@ -96,7 +106,7 @@ int scanhash_lyra2re(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 			do {
 				pdata[19] = ++n;
 				be32enc(&endiandata[19], n);
-				lyra2rehash(hash64, &endiandata);
+				lyra2rev2hash(hash64, &endiandata);
 #ifndef DEBUG_ALGO
 				if ((!(hash64[7] & mask)) && fulltest(hash64, ptarget)) {
 					*hashes_done = n - first_nonce + 1;

@@ -51,6 +51,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/pentablake.c \
 		  algorithm/axiom.c \
 		  algorithm/Lyra2RE.c \
+		  algorithm/Lyra2RErev2.c \
 		  algorithm/pluck.c \
 		  algorithm/whirlcoin.c \
 		  algorithm/whirlpoolx.c \
