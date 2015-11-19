@@ -46,6 +46,8 @@ minerd_SOURCES	= elist.h \
 		  sha3/sph_skein.c \
 		  sha3/sph_bmw.c \
 		  sha3/sph_jh.c \
+		  sha3/sph_sha0.c \
+		  sha3/sph_sha1.c \
 		  sha3/sph_sha2.c \
 		  sha3/sph_sha2big.c \
 		  sha3/sph_shavite.c \
@@ -55,6 +57,14 @@ minerd_SOURCES	= elist.h \
 		  sha3/sph_simd.c \
 		  sha3/sph_echo.c \
 		  sha3/sph_hamsi.c \
+		  sha3/sph_haval.c \
+		  sha3/sph_md2.c \
+		  sha3/sph_md4.c \
+		  sha3/sph_md5.c \
+		  sha3/sph_panama.c \
+		  sha3/sph_radiogatun.c \
+		  sha3/sph_ripemd.c \
+		  sha3/sph_tiger.c \
 		  sha3/sph_fugue.c \
 		  sha3/sph_shabal.c \
 		  sha3/sph_whirlpool.c \
