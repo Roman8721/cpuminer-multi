@@ -32,8 +32,8 @@ static void myriadcoin_groestlhash(void *output, const void *input)
 	sph_groestl512(&ctx.groestl, input, 80);
 	sph_groestl512_close(&ctx.groestl, hash);
 
-	sph_sha512(&ctx.sha2, hash, 64);
-	sph_sha512_close(&ctx.sha2, hash);
+	sph_sha256(&ctx.sha2, hash, 64);
+	sph_sha256_close(&ctx.sha2, hash);
 
 	memcpy(output, hash, 32);
 }
