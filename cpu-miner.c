@@ -1011,12 +1011,20 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
             free(xnonce2str);
         }
 
-        if (opt_algo.type == ALGO_SCRYPT)
-            diff_to_target(work->target, sctx->job.diff / 65536.0 / opt_diff_factor);
-        else if (opt_algo.type == ALGO_KECCAK)
-            diff_to_target(work->target, sctx->job.diff / 256.0 / opt_diff_factor);
-        else
-            diff_to_target(work->target, sctx->job.diff / opt_diff_factor);
+        switch (opt_algo.type) {
+            case ALGO_SCRYPT:
+                work_set_target(work, sctx->job.diff / (65536.0 * opt_diff_factor));
+                break;
+            case ALGO_FRESH:
+            case ALGO_GROESTL:
+                work_set_target(work, sctx->job.diff / (256.0 * opt_diff_factor));
+                break;
+            case ALGO_KECCAK:
+                work_set_target(work, sctx->job.diff / (128.0 * opt_diff_factor));
+                break;
+            default:
+                work_set_target(work, sctx->job.diff / opt_diff_factor);
+        }
     }
 }
 

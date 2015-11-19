@@ -570,6 +570,13 @@ void diff_to_target(uint32_t *target, double diff)
 	}
 }
 
+// Only used by stratum pools
+void work_set_target(struct work* work, double diff)
+{
+	diff_to_target(work->target, diff);
+//	work->targetdiff = diff;
+}
+
 #ifdef WIN32
 #define socket_blocks() (WSAGetLastError() == WSAEWOULDBLOCK)
 #else

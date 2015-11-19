@@ -201,6 +201,8 @@ extern bool aes_ni_supported;
 #define JSON_RPC_QUIET_404	(1 << 1)
 #define JSON_RPC_IGNOREERR  (1 << 2)
 
+struct work;
+
 extern void applog(int prio, const char *fmt, ...);
 extern json_t *json_rpc_call(CURL *curl, const char *url, const char *userpass,
 	const char *rpc_req, int *curl_err, int flags);
@@ -209,6 +211,7 @@ extern bool hex2bin(unsigned char *p, const char *hexstr, size_t len);
 extern int timeval_subtract(struct timeval *result, struct timeval *x,
 	struct timeval *y);
 extern bool fulltest(const uint32_t *hash, const uint32_t *target);
+extern void work_set_target(struct work* work, double diff);
 extern void diff_to_target(uint32_t *target, double diff);
 
 struct work {
