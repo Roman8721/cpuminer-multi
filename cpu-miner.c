@@ -39,6 +39,10 @@
 #include "compat.h"
 #include "miner.h"
 
+#ifdef WIN32
+BOOL WINAPI ConsoleHandler(DWORD);
+#endif
+
 #define PROGRAM_NAME		"minerd"
 #define LP_SCANTIME		60
 #define JSON_BUF_LEN 345
@@ -79,7 +83,7 @@ static algorithm_t opt_algo;
 static int opt_scrypt_n = 1024;
 static int opt_n_threads = 0;
 static int opt_affinity = -1;
-static int opt_priority = 0;
+int opt_priority = 0;
 int num_cpus;
 static char *rpc_url;
 static char *rpc_userpass;
@@ -1823,6 +1827,23 @@ static void signal_handler(int sig) {
         exit(0);
         break;
     }
+}
+#else
+BOOL WINAPI ConsoleHandler(DWORD dwType)
+{
+    switch (dwType) {
+    case CTRL_C_EVENT:
+	applog(LOG_INFO, "CTRL_C_EVENT received, exiting");
+	exit(0);
+	break;
+    case CTRL_BREAK_EVENT:
+	applog(LOG_INFO, "CTRL_BREAK_EVENT received, exiting");
+	exit(0);
+	break;
+    default:
+	return false;
+    }
+    return true;
 }
 #endif
 
