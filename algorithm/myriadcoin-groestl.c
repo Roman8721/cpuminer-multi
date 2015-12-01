@@ -54,6 +54,9 @@ int scanhash_myriadcoin_groestl(int thr_id, uint32_t *pdata, const uint32_t *pta
 		0xFF,
 		0xFFF,
 		0xFFFF,
+		0xFFFFF,
+		0xFFFFFF,
+		0xFFFFFFF,
 		0x10000000
 	};
 	uint32_t masks[] = {
@@ -62,6 +65,9 @@ int scanhash_myriadcoin_groestl(int thr_id, uint32_t *pdata, const uint32_t *pta
 		0xFFFFFF00,
 		0xFFFFF000,
 		0xFFFF0000,
+		0xFFF00000,
+		0xFF000000,
+		0xF0000000,
 		0
 	};
 
