@@ -550,6 +550,7 @@ static void share_result(int result, struct work *work, const char *reason) {
                 (((double) 0xffffffff) / (work ? work->target[7] : rpc2_target)),
                 result ? "(yay!!!)" : "(booooo)");
         break;
+    case ALGO_ARGON2:
     case ALGO_AXIOM:
     case ALGO_SCRYPTJANE:
         sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);
@@ -1043,6 +1044,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
         }
 
         switch (opt_algo.type) {
+            case ALGO_ARGON2:
             case ALGO_SCRYPT:
             case ALGO_SCRYPTJANE:
             case ALGO_PLUCK:
@@ -1216,6 +1218,9 @@ static void *miner_thread(void *userdata) {
             case ALGO_PLUCK:
                 max64 = 0xffff / opt_scrypt_n;
                 break;
+            case ALGO_ARGON2:
+                max64 = 0x1ff;
+                break;
             default:
                 max64 = 0x1fffffLL;
                 break;
@@ -1248,6 +1253,7 @@ static void *miner_thread(void *userdata) {
                 applog(LOG_INFO, "thread %d: %lu hashes, %.2f H/s", thr_id,
                         hashes_done, thr_hashrates[thr_id]);
                 break;
+            case ALGO_ARGON2:
             case ALGO_AXIOM:
             case ALGO_SCRYPTJANE:
                 sprintf(s, thr_hashrates[thr_id] >= 1e3 ? "%.0f" : "%.2f",
@@ -1272,6 +1278,7 @@ static void *miner_thread(void *userdata) {
                 case ALGO_CRYPTONIGHT:
                     applog(LOG_INFO, "Total: %s H/s", hashrate);
                     break;
+                case ALGO_ARGON2:
                 case ALGO_AXIOM:
                 case ALGO_SCRYPTJANE:
                     sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);

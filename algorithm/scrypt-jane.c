@@ -13,8 +13,13 @@
 #define SCRYPT_R 1
 #define SCRYPT_P 1
 
+#define SCRYPT_KECCAK512
+#define SCRYPT_CHACHA
+#define SCRYPT_CHOOSE_COMPILETIME
+
 /* Only the instrinsics versions are optimized for hard-coded values - mikaelh */
 
+#include "scrypt-jane.h"
 #include "scryptjane/scrypt-jane-portable.h"
 #include "scryptjane/scrypt-jane-hash.h"
 #include "scryptjane/scrypt-jane-romix.h"
@@ -57,11 +62,7 @@ void init_scrypt_jane_contexts(void *dummy)
 	ctx.time = *(int *)dummy;
 }
 
-typedef struct scrypt_aligned_alloc_t {
-	uint8_t *mem, *ptr;
-} scrypt_aligned_alloc;
-
-static scrypt_aligned_alloc
+scrypt_aligned_alloc
 scrypt_alloc(uint64_t size) {
 	static const size_t max_alloc = (size_t)-1;
 	scrypt_aligned_alloc aa;
@@ -79,7 +80,7 @@ scrypt_alloc(uint64_t size) {
 	return aa;
 }
 
-static void
+void
 scrypt_free(scrypt_aligned_alloc *aa) {
 	free(aa->mem);
 }

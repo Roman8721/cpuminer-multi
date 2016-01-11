@@ -18,6 +18,7 @@ typedef enum {
     ALGO_SHA256D,     /* SHA-256d */
     ALGO_DCRYPT,      /* dcrypt */
     ALGO_YESCRYPT,    /* yescypt */
+    ALGO_ARGON2,      /* argon2 */
     ALGO_KECCAK,      /* Keccak */
     ALGO_TWE,         /* TweCoin */
     ALGO_HEAVY,       /* Heavy */
@@ -53,6 +54,7 @@ SCANHASH(scrypt);
 SCANHASH(scrypt_jane);
 SCANHASH(dcrypt);
 SCANHASH(yescrypt);
+SCANHASH(argon2);
 SCANHASH(keccak);
 SCANHASH(twe);
 SCANHASH(heavy);

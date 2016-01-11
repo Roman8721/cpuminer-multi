@@ -25,6 +25,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/sha2.c \
 		  algorithm/scrypt.c \
 		  algorithm/scrypt-jane.c \
+		  algorithm/argon2a.c \
 		  algorithm/dcrypt.c \
 		  algorithm/dcrypt_sha256.c \
 		  algorithm/yescrypt.c \
@@ -58,6 +59,10 @@ minerd_SOURCES	= elist.h \
 		  algorithm/whirlpoolx.c \
 		  lyra2/Lyra2.c \
 		  lyra2/Sponge.c \
+		  ar2/src/cores.c \
+		  ar2/src/blake2/blake2b.c \
+		  ar2/src/opt.c \
+		  ar2/src/argon2.c \
 		  sha3/sph_keccak.c \
 		  sha3/sph_hefty1.c \
 		  sha3/sph_groestl.c \
@@ -113,7 +118,7 @@ endif
 
 minerd_LDFLAGS	= $(PTHREAD_FLAGS)
 minerd_LDADD	= @LIBCURL_LIBS@ @OPENSSL_LIBS@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@
-minerd_CPPFLAGS = @LIBCURL_CPPFLAGS@ @LIBCURL_CFLAGS@ -DSCRYPT_KECCAK512 -DSCRYPT_CHACHA -DSCRYPT_CHOOSE_COMPILETIME
+minerd_CPPFLAGS = @LIBCURL_CPPFLAGS@ @LIBCURL_CFLAGS@
 minerd_CFLAGS   = 
 
 if HAVE_WINDOWS
