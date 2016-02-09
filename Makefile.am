@@ -41,6 +41,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/groestl.c \
 		  algorithm/myriadcoin-groestl.c \
 		  algorithm/blake.c \
+		  algorithm/blakecoin.c \
 		  algorithm/cryptonight.c \
 		  algorithm/fresh.c \
 		  algorithm/lbry.c \

@@ -9,28 +9,28 @@
 /* Move init out of loop, so init once externally, and then use one single memcpy with that bigger memory block */
 typedef struct {
 	sph_blake256_context	blake;
-} blakehash_context_holder;
+} blakecoinhash_context_holder;
 
-static THREADLOCAL blakehash_context_holder ctx;
+static THREADLOCAL blakecoinhash_context_holder ctx;
 
-void init_blake_contexts()
+void init_blakecoin_contexts()
 {
 	sph_blake256_init(&ctx.blake);
 }
 
-void blakehash(void *output, const void *input)
+void blakecoinhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 
 	memset(hash, 0, 16 * sizeof(uint32_t));
 
-	sph_blake256 (&ctx.blake, input, 80);
-	sph_blake256_close (&ctx.blake, hash);
+	sph_blake256_mod (&ctx.blake, input, 80);
+	sph_blake256_close_mod (&ctx.blake, hash);
 
 	memcpy(output, hash, 32);
 }
 
-int scanhash_blake(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
+int scanhash_blakecoin(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 	uint32_t max_nonce, uint64_t *hashes_done)
 {
 	uint32_t n = pdata[19] - 1;
@@ -70,21 +70,9 @@ int scanhash_blake(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 			do {
 				pdata[19] = ++n;
 				be32enc(&endiandata[19], n);
-				blakehash(hash64, &endiandata);
+				blakecoinhash(hash64, &endiandata);
 #ifndef DEBUG_ALGO
 				if ((!(hash64[7] & mask)) && fulltest(hash64, ptarget)) {
-{
-char *hash_str;
-hash_str = bin2hex((unsigned char *)endiandata, 80);
-applog(LOG_DEBUG, "DATA: %s", hash_str);
-free(hash_str);
-}
-{
-char *hash_str;
-hash_str = bin2hex((unsigned char *)hash64, 32);
-applog(LOG_DEBUG, "HASH: %s", hash_str);
-free(hash_str);
-}
 					*hashes_done = n - first_nonce + 1;
 					return true;
 				}

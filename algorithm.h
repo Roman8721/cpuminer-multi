@@ -31,7 +31,9 @@ typedef enum {
     ALGO_S3,          /* S3 */
     ALGO_NIST5,       /* Nist5 */
     ALGO_SHAVITE3,    /* Shavite3 */
-    ALGO_BLAKE,       /* Blake */
+    ALGO_BLAKE,       /* Blake256 r14 */
+    ALGO_BLAKECOIN,   /* Blakecoin (blake256 r8)*/
+    ALGO_VANILLA,     /* Blake+sha256d merkle */
     ALGO_FRESH,       /* Fresh */
     ALGO_LBRY,        /* lbrycr */
     ALGO_SIB,         /* Sib */
@@ -66,6 +68,7 @@ SCANHASH(s3);
 SCANHASH(nist5);
 SCANHASH(ink);
 SCANHASH(blake);
+SCANHASH(blakecoin);
 SCANHASH(fresh);
 SCANHASH(lbry);
 SCANHASH(sib);
