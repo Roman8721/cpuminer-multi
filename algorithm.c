@@ -15,6 +15,7 @@ algorithm_t algos[] = {
     { "blake",       ALGO_BLAKE,      "Blake", sha256d, sha256d, scanhash_blake, blakehash, init_blake_contexts, NULL },
     { "blakecoin",   ALGO_BLAKECOIN,  "Blakecoin", sha256, sha256d, scanhash_blakecoin, blakecoinhash, init_blakecoin_contexts, NULL },
     { "vanilla",     ALGO_VANILLA,    "Vanillacoin", sha256d, sha256d, scanhash_blakecoin, blakecoinhash, init_blakecoin_contexts, NULL },
+    { "decred",      ALGO_DECRED,     "Decred", sha256d, sha256d, scanhash_blake, blakehash, init_blake_contexts, NULL },
     { "fresh",       ALGO_FRESH,      "Fresh", sha256d, sha256d, scanhash_fresh, freshhash, init_fresh_contexts, NULL },
     { "lbry",        ALGO_LBRY,       "Lbry", sha256d, sha256d, scanhash_lbry, lbryhash, init_lbry_contexts, NULL },
     { "heavy",       ALGO_HEAVY,      "Heavy", heavy, heavy, scanhash_heavy, heavyhash, init_heavy_contexts, NULL },

@@ -47,6 +47,7 @@ typedef enum {
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
     ALGO_CRYPTONIGHT, /* CryptoNight */
+    ALGO_DECRED,      /* Decred */
     ALGO_WHIRL,       /* Whirlcoin */
     ALGO_WHIRLPOOLX,  /* WhirlpoolX */
 } algorithm_type_t;
@@ -69,6 +70,7 @@ SCANHASH(nist5);
 SCANHASH(ink);
 SCANHASH(blake);
 SCANHASH(blakecoin);
+SCANHASH(decred);
 SCANHASH(fresh);
 SCANHASH(lbry);
 SCANHASH(sib);
@@ -84,6 +86,7 @@ SCANHASH(myriadcoin_groestl);
 SCANHASH(pentablake);
 SCANHASH(axiom);
 SCANHASH(cryptonight);
+SCANHASH(lbry);
 SCANHASH(whirlcoin);
 SCANHASH(whirlpoolx);
 
