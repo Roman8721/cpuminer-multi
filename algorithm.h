@@ -35,6 +35,7 @@ typedef enum {
     ALGO_BLAKECOIN,   /* Blakecoin (blake256 r8)*/
     ALGO_VANILLA,     /* Blake+sha256d merkle */
     ALGO_FRESH,       /* Fresh */
+    ALGO_HMQ1725,     /* Hmq1725 */
     ALGO_LBRY,        /* lbrycr */
     ALGO_SIB,         /* Sib */
     ALGO_X11,         /* X11 */
@@ -78,6 +79,7 @@ SCANHASH(x11);
 SCANHASH(x13);
 SCANHASH(x14);
 SCANHASH(x15);
+SCANHASH(hmq1725);
 SCANHASH(lyra2re);
 SCANHASH(lyra2rev2);
 SCANHASH(pluck);

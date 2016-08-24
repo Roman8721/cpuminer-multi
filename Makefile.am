@@ -45,6 +45,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/blakecoin.c \
 		  algorithm/cryptonight.c \
 		  algorithm/fresh.c \
+		  algorithm/hmq1725.c \
 		  algorithm/lbry.c \
 		  algorithm/nist5.c \
 		  algorithm/sib.c \

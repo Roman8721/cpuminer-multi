@@ -1045,6 +1045,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
 
         switch (opt_algo.type) {
             case ALGO_ARGON2:
+            case ALGO_HMQ1725:
             case ALGO_SCRYPT:
             case ALGO_SCRYPTJANE:
             case ALGO_PLUCK:

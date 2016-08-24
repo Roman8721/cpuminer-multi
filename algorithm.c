@@ -18,6 +18,7 @@ algorithm_t algos[] = {
     { "decred",      ALGO_DECRED,     "Decred", sha256d, sha256d, scanhash_blake, blakehash, init_blake_contexts, NULL },
     { "fresh",       ALGO_FRESH,      "Fresh", sha256d, sha256d, scanhash_fresh, freshhash, init_fresh_contexts, NULL },
     { "lbry",        ALGO_LBRY,       "Lbry", sha256d, sha256d, scanhash_lbry, lbryhash, init_lbry_contexts, NULL },
+    { "hmq1725",     ALGO_HMQ1725,    "Hmq1725", sha256d, sha256d, scanhash_hmq1725, hmq1725hash, init_hmq1725_contexts, NULL },
     { "heavy",       ALGO_HEAVY,      "Heavy", heavy, heavy, scanhash_heavy, heavyhash, init_heavy_contexts, NULL },
     { "keccak",      ALGO_KECCAK,     "Keccak", sha256, sha256, scanhash_keccak, keccakhash, init_keccak_contexts, NULL },
     { "twe",         ALGO_TWE,        "Twe", sha256, sha256, scanhash_twe, twehash, init_twe_contexts, NULL },
