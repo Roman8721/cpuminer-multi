@@ -32,6 +32,7 @@ algorithm_t algos[] = {
     { "pentablake",  ALGO_PENTABLAKE, "pentablake", sha256d, sha256d, scanhash_pentablake, pentablakehash, init_pentablake_contexts, NULL },
     { "axiom",       ALGO_AXIOM,      "AxiomHash", sha256d, sha256d, scanhash_axiom, axiomhash, init_axiom_contexts, free_axiom_contexts },
     { "sib",         ALGO_SIB,        "Sib", sha256d, sha256d, scanhash_sib, sibhash, init_sib_contexts, NULL },
+    { "veltor",      ALGO_VELTOR,     "Veltor", sha256d, sha256d, scanhash_veltor, veltorhash, init_veltor_contexts, NULL },
     { "x11",         ALGO_X11,        "X11", sha256d, sha256d, scanhash_x11, x11hash, init_x11_contexts, NULL },
     { "x13",         ALGO_X13,        "X13", sha256d, sha256d, scanhash_x13, x13hash, init_x13_contexts, NULL },
     { "x14",         ALGO_X14,        "X14", sha256d, sha256d, scanhash_x14, x14hash, init_x14_contexts, NULL },

@@ -38,6 +38,7 @@ typedef enum {
     ALGO_HMQ1725,     /* Hmq1725 */
     ALGO_LBRY,        /* lbrycr */
     ALGO_SIB,         /* Sib */
+    ALGO_VELTOR,      /* Veltor */
     ALGO_X11,         /* X11 */
     ALGO_X13,         /* X13 */
     ALGO_X14,         /* X14 */
@@ -75,6 +76,7 @@ SCANHASH(decred);
 SCANHASH(fresh);
 SCANHASH(lbry);
 SCANHASH(sib);
+SCANHASH(veltor);
 SCANHASH(x11);
 SCANHASH(x13);
 SCANHASH(x14);
