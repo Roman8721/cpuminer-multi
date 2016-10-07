@@ -1268,7 +1268,8 @@ static void *miner_thread(void *userdata) {
             break;
     }
 
-    out: tq_freeze(mythr->q);
+    out: if (opt_algo.free_contexts) opt_algo.free_contexts(&opt_scrypt_n);
+    tq_freeze(mythr->q);
 
     return NULL ;
 }

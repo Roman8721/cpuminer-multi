@@ -41,6 +41,7 @@ typedef struct _algorithm_t {
     int (*scanhash)(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done);
     void (*init_contexts)(void *params);
+    void (*free_contexts)(void *params);
 } algorithm_t;
 
 #endif /* ALGORITHM_H */
