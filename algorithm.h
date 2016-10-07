@@ -22,6 +22,7 @@ typedef enum {
     ALGO_X13,         /* X13 */
     ALGO_X14,         /* X14 */
     ALGO_X15,         /* X15 Whirlpool */
+    ALGO_LYRA2RE,     /* Lyra2RE */
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
     ALGO_CRYPTONIGHT, /* CryptoNight */

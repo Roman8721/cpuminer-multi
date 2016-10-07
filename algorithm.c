@@ -25,6 +25,7 @@ SCANHASH(x11);
 SCANHASH(x13);
 SCANHASH(x14);
 SCANHASH(x15);
+SCANHASH(lyra);
 SCANHASH(groestl);
 SCANHASH(myriadcoin_groestl);
 SCANHASH(pentablake);
@@ -48,6 +49,7 @@ algorithm_t algos[] = {
     { "x13",         ALGO_X13,        "X13", sha256d, scanhash_x13, init_x13_contexts },
     { "x14",         ALGO_X14,        "X14", sha256d, scanhash_x14, init_x14_contexts },
     { "x15",         ALGO_X15,        "X15", sha256d, scanhash_x15, init_x15_contexts },
+    { "lyra",        ALGO_LYRA2RE,    "Lyra2RE", sha256d, scanhash_lyra, init_lyra_contexts },
     { "groestl",     ALGO_GROESTL,    "Groestl", sha256, scanhash_groestl, init_groestl_contexts },
     { "myr-groestl", ALGO_MYRGROESTL,    "Myriadcoin-groestl", sha256, scanhash_myriadcoin_groestl, init_myriadcoin_groestl_contexts },
 
