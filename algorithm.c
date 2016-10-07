@@ -8,7 +8,7 @@
 algorithm_t algos[] = {
     { "scrypt",      ALGO_SCRYPT,     "scrypt(1024, 1, 1)", sha256d, sha256d, scanhash_scrypt, scrypthash, init_scrypt_contexts, NULL },
     { "sha256d",     ALGO_SHA256D,    "SHA-256d", sha256d, sha256d, scanhash_sha256d, NULL, NULL, NULL },
-    { "blake",       ALGO_BLAKE,      "Blake", sha256d, sha256d, scanhash_blake, blakehash, init_blake_contexts, NULL },
+    { "blake",       ALGO_BLAKE,      "Blake", sha256, sha256d, scanhash_blake, blakehash, init_blake_contexts, NULL },
     { "fresh",       ALGO_FRESH,      "Fresh", sha256d, sha256d, scanhash_fresh, freshhash, init_fresh_contexts, NULL },
     { "lbry",        ALGO_LBRY,       "Lbry", sha256d, sha256d, scanhash_lbry, lbryhash, init_lbry_contexts, NULL },
     { "heavy",       ALGO_HEAVY,      "Heavy", sha256d, sha256d, scanhash_heavy, heavyhash, init_heavy_contexts, NULL },
