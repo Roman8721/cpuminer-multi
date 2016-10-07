@@ -33,6 +33,7 @@ typedef enum {
     ALGO_BLAKE,       /* Blake */
     ALGO_FRESH,       /* Fresh */
     ALGO_LBRY,        /* lbrycr */
+    ALGO_SIB,         /* Sib */
     ALGO_X11,         /* X11 */
     ALGO_X13,         /* X13 */
     ALGO_X14,         /* X14 */
@@ -65,6 +66,7 @@ SCANHASH(ink);
 SCANHASH(blake);
 SCANHASH(fresh);
 SCANHASH(lbry);
+SCANHASH(sib);
 SCANHASH(x11);
 SCANHASH(x13);
 SCANHASH(x14);

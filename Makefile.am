@@ -44,6 +44,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/fresh.c \
 		  algorithm/lbry.c \
 		  algorithm/nist5.c \
+		  algorithm/sib.c \
 		  algorithm/x11.c \
 		  algorithm/x13.c \
 		  algorithm/x14.c \
@@ -60,6 +61,7 @@ minerd_SOURCES	= elist.h \
 		  sha3/sph_keccak.c \
 		  sha3/sph_hefty1.c \
 		  sha3/sph_groestl.c \
+		  sha3/sph_gost.c \
 		  sha3/sph_skein.c \
 		  sha3/sph_bmw.c \
 		  sha3/sph_jh.c \
