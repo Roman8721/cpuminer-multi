@@ -27,6 +27,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/keccak.c \
 		  algorithm/heavy.c \
 		  algorithm/quark.c \
+		  algorithm/qubit.c \
 		  algorithm/skein.c \
 		  algorithm/ink.c \
 		  algorithm/groestl.c \
@@ -42,6 +43,8 @@ minerd_SOURCES	= elist.h \
 		  algorithm/pentablake.c \
 		  algorithm/axiom.c \
 		  algorithm/Lyra2RE.c \
+		  algorithm/pluck.c \
+		  algorithm/whirlpoolx.c \
 		  lyra2/Lyra2.c \
 		  lyra2/Sponge.c \
 		  sha3/sph_keccak.c \

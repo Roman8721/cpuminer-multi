@@ -1030,6 +1030,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
 
         switch (opt_algo.type) {
             case ALGO_SCRYPT:
+            case ALGO_PLUCK:
                 work_set_target(work, sctx->job.diff / (65536.0 * opt_diff_factor));
                 break;
             case ALGO_FRESH:
@@ -1188,6 +1189,9 @@ static void *miner_thread(void *userdata) {
                 break;
             case ALGO_PENTABLAKE:
                 max64 = 0x3ffff;
+                break;
+            case ALGO_PLUCK:
+                max64 = 0xffff / opt_scrypt_n;
                 break;
             default:
                 max64 = 0x1fffffLL;
@@ -1569,10 +1573,13 @@ static void parse_arg(int key, char *arg) {
             v = strlen(algo->name);
             if (!strncmp(arg, algo->name, v)) {
                 if (arg[v] == '\0') {
+                    if (algo->type == ALGO_PLUCK) {
+                        opt_scrypt_n = 128;
+                    }
                     opt_algo = *algo;
                     break;
                 }
-                if (arg[v] == ':' && i == ALGO_SCRYPT) {
+                if (arg[v] == ':' && (algo->type == ALGO_SCRYPT || algo->type == ALGO_PLUCK)) {
                     char *ep;
                     v = strtol(arg+v+1, &ep, 10);
                     if (*ep || v & (v-1) || v < 2)

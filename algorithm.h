@@ -11,6 +11,7 @@ typedef enum {
     ALGO_KECCAK,      /* Keccak */
     ALGO_HEAVY,       /* Heavy */
     ALGO_QUARK,       /* Quark */
+    ALGO_QUBIT,       /* Qubit */
     ALGO_GROESTL,     /* Groestl */
     ALGO_MYRGROESTL,  /* Myriadcoin-groestl */
     ALGO_SKEIN,       /* Skein */
@@ -23,9 +24,11 @@ typedef enum {
     ALGO_X14,         /* X14 */
     ALGO_X15,         /* X15 Whirlpool */
     ALGO_LYRA2RE,     /* Lyra2RE */
+    ALGO_PLUCK,       /* Pluck */
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
     ALGO_CRYPTONIGHT, /* CryptoNight */
+    ALGO_WHIRLPOOLX,  /* WhirlpoolX */
 } algorithm_type_t;
 
 typedef struct _algorithm_t {

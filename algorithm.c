@@ -16,6 +16,7 @@ SCANHASH(scrypt);
 SCANHASH(keccak);
 SCANHASH(heavy);
 SCANHASH(quark);
+SCANHASH(qubit);
 SCANHASH(skein);
 SCANHASH(ink);
 SCANHASH(blake);
@@ -26,11 +27,13 @@ SCANHASH(x13);
 SCANHASH(x14);
 SCANHASH(x15);
 SCANHASH(lyra);
+SCANHASH(pluck);
 SCANHASH(groestl);
 SCANHASH(myriadcoin_groestl);
 SCANHASH(pentablake);
 SCANHASH(axiom);
 SCANHASH(cryptonight);
+SCANHASH(whirlpoolx);
 
 algorithm_t algos[] = {
     { "scrypt",      ALGO_SCRYPT,     "scrypt(1024, 1, 1)", sha256d, sha256d, scanhash_scrypt, NULL },
@@ -43,6 +46,7 @@ algorithm_t algos[] = {
     { "shavite3",    ALGO_SHAVITE3,   "Shavite3", sha256d, sha256d, scanhash_ink, init_ink_contexts },
     { "skein",       ALGO_SKEIN,      "Skein", sha256d, sha256d, scanhash_skein, init_skein_contexts },
     { "quark",       ALGO_QUARK,      "Quark", sha256d, sha256d, scanhash_quark, init_quark_contexts },
+    { "qubit",       ALGO_QUBIT,      "Qubit", sha256d, sha256d, scanhash_qubit, init_qubit_contexts },
     { "pentablake",  ALGO_PENTABLAKE, "pentablake", sha256d, sha256d, scanhash_pentablake, init_pentablake_contexts },
     { "axiom",       ALGO_AXIOM,      "AxiomHash", sha256d, sha256d, scanhash_axiom, init_axiom_contexts },
     { "x11",         ALGO_X11,        "X11", sha256d, sha256d, scanhash_x11, init_x11_contexts },
@@ -52,6 +56,8 @@ algorithm_t algos[] = {
     { "lyra",        ALGO_LYRA2RE,    "Lyra2RE", sha256d, sha256d, scanhash_lyra, init_lyra_contexts },
     { "groestl",     ALGO_GROESTL,    "Groestl", sha256, sha256, scanhash_groestl, init_groestl_contexts },
     { "myr-groestl", ALGO_MYRGROESTL,    "Myriadcoin-groestl", sha256, sha256, scanhash_myriadcoin_groestl, init_myriadcoin_groestl_contexts },
+    { "pluck",       ALGO_PLUCK,      "pluck(128)", sha256d, sha256d, scanhash_pluck, init_pluck_contexts },
+    { "whirlpoolx",  ALGO_WHIRLPOOLX, "WhirlpoolX", sha256d, sha256d, scanhash_whirlpoolx, init_whirlpoolx_contexts },
 
     { "cryptonight", ALGO_CRYPTONIGHT, "cryptonight", sha256d, sha256d, scanhash_cryptonight, NULL },
 
