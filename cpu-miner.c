@@ -992,7 +992,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
         opt_algo.gen_hash(merkle_root, sctx->job.coinbase, sctx->job.coinbase_size);
         for (i = 0; i < sctx->job.merkle_count; i++) {
             memcpy(merkle_root + 32, sctx->job.merkle[i], 32);
-            sha256d(merkle_root, merkle_root, 64);
+            opt_algo.gen_hash2(merkle_root, merkle_root, 64);
         }
 
         /* Increment extranonce2 */

@@ -34,6 +34,7 @@ typedef struct _algorithm_t {
     char *displayname;
 //    int64_t max;
     void (*gen_hash)(unsigned char *hash, const unsigned char *data, int len);
+    void (*gen_hash2)(unsigned char *hash, const unsigned char *data, int len);
     int (*scanhash)(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done);
     void (*init_contexts)(void *params);
