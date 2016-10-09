@@ -61,7 +61,7 @@ void init_x14_contexts(void *dummy)
 	sph_shabal512_init(&ctx.shabal);
 }
 
-static void x14hash(void *output, const void *input)
+void x14hash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

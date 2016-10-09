@@ -21,7 +21,7 @@ void init_skein_contexts(void *dummy)
 	sph_skein512_init(&ctx.skein);
 }
 
-static void skeinhash(void *output, const void *input)
+void skeinhash(void *output, const void *input)
 {
 	uint32_t mask = 8;
 	uint32_t zero = 0;

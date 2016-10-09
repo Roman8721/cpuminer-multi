@@ -32,7 +32,7 @@ void init_qubit_contexts()
 	sph_echo512_init (&ctx.echo);
 }
 
-static void qubithash(void *state, const void *input)
+void qubithash(void *state, const void *input)
 {
 	uint32_t hash[16];
 	uint32_t mask = 8;

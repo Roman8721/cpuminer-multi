@@ -20,7 +20,7 @@ void init_axiom_contexts(void *dummy)
 	sph_shabal256_init(&ctx.shabal);
 }
 
-static void axiomhash(void *output, const void *input)
+void axiomhash(void *output, const void *input)
 {
 	uint32_t hash[65536][8];
 	int R = 2;

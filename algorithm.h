@@ -4,6 +4,13 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#define SCANHASH(name) \
+extern int scanhash_ ## name(int thr_id, uint32_t *pdata, const uint32_t *ptarget, \
+                            uint32_t max_nonce, uint64_t *hashes_done); \
+extern void name ## hash(void* output, const void* input); \
+extern void init_ ## name ## _contexts(); \
+extern void free_ ## name ## _contexts();
+
 typedef enum {
     ALGO_UNK,
     ALGO_SCRYPT,      /* scrypt(1024,1,1) */
@@ -31,6 +38,30 @@ typedef enum {
     ALGO_WHIRLPOOLX,  /* WhirlpoolX */
 } algorithm_type_t;
 
+SCANHASH(sha256d);
+SCANHASH(scrypt);
+SCANHASH(keccak);
+SCANHASH(heavy);
+SCANHASH(quark);
+SCANHASH(qubit);
+SCANHASH(skein);
+SCANHASH(ink);
+SCANHASH(blake);
+SCANHASH(fresh);
+SCANHASH(lbry);
+SCANHASH(x11);
+SCANHASH(x13);
+SCANHASH(x14);
+SCANHASH(x15);
+SCANHASH(lyra);
+SCANHASH(pluck);
+SCANHASH(groestl);
+SCANHASH(myriadcoin_groestl);
+SCANHASH(pentablake);
+SCANHASH(axiom);
+SCANHASH(cryptonight);
+SCANHASH(whirlpoolx);
+
 typedef struct _algorithm_t {
     const char* name; /* Human-readable identifier */
     algorithm_type_t type; //algorithm type
@@ -40,6 +71,7 @@ typedef struct _algorithm_t {
     void (*gen_hash2)(unsigned char *hash, const unsigned char *data, int len);
     int (*scanhash)(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done);
+    void (*simplehash)(void *output, const void *input);
     void (*init_contexts)(void *params);
     void (*free_contexts)(void *params);
 } algorithm_t;

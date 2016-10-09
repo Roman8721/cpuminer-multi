@@ -56,7 +56,7 @@ void init_x13_contexts(void *dummy)
 	sph_fugue512_init(&ctx.fugue);
 }
 
-static void x13hash(void *output, const void *input)
+void x13hash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

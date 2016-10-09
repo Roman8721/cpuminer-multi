@@ -20,7 +20,7 @@ void init_groestl_contexts(void *dummy)
 	sph_groestl512_init(&ctx.groestl);
 }
 
-static void groestlhash(void *output, const void *input)
+void groestlhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

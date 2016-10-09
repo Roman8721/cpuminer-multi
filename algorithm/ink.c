@@ -19,7 +19,7 @@ void init_ink_contexts(void *dummy)
 	sph_shavite512_init(&ctx.shavite);
 }
 
-static void inkhash(void *output, const void *input)
+void inkhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

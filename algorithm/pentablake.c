@@ -21,7 +21,7 @@ void init_pentablake_contexts()
 	sph_blake512_init(&ctx.blake);
 }
 
-static void pentablakehash(void *output, const void *input)
+void pentablakehash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

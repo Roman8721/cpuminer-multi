@@ -713,6 +713,13 @@ static void scrypt_1024_1_1_256_24way(const uint32_t *input,
 }
 #endif /* HAVE_SCRYPT_6WAY */
 
+void scrypthash(void *output, const void *input) {
+	uint32_t midstate[8];
+	sha256_init(midstate);
+	sha256_transform(midstate, input, 0);
+	scrypt_1024_1_1_256(input, output, midstate, ctx.scratchbuf, ctx.n);
+}
+
 int scanhash_scrypt(int thr_id, uint32_t *pdata,
 	const uint32_t *ptarget,
 	uint32_t max_nonce, uint64_t *hashes_done)

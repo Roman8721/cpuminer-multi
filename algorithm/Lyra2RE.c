@@ -32,7 +32,7 @@ void init_lyra_contexts(void *dummy)
 	sph_groestl256_init(&ctx.groestl);
 }
 
-static void lyrahash(void *output, const void *input)
+void lyrahash(void *output, const void *input)
 {
 	uint32_t hashA[16], hashB[16];
 

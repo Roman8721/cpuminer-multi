@@ -21,7 +21,7 @@ void init_keccak_contexts(void *dummy)
 	sph_keccak256_init(&ctx.keccak);
 }
 
-static void keccakhash(void *output, const void *input)
+void keccakhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

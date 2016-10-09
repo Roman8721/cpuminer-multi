@@ -35,7 +35,7 @@ void init_quark_contexts()
 	sph_keccak512_init(&ctx.keccak);
 }
 
-static void quarkhash(void *state, const void *input)
+void quarkhash(void *state, const void *input)
 {
 	uint32_t hash[16];
 	uint32_t mask = 8;

@@ -290,6 +290,10 @@ void PluckHash(uint32_t *hash, const uint32_t *data, void *hashbuffer, const int
 	memcpy(hash, hashbuffer, 32);
 }
 
+void pluckhash(void *output, const void *input) {
+	PluckHash(output, input, ctx.scratchbuf, ctx.n);
+}
+
 int scanhash_pluck(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 	uint32_t max_nonce, uint64_t *hashes_done)
 {

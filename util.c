@@ -1448,3 +1448,52 @@ out:
 	pthread_mutex_unlock(&tq->mutex);
 	return rval;
 }
+
+/* sprintf can be used in applog */
+static char* format_hash(char* buf, uint8_t *hash)
+{
+	int len = 0;
+	for (int i=0; i < 32; i += 4) {
+	len += sprintf(buf+len, "%02x%02x%02x%02x ",
+		hash[i], hash[i+1], hash[i+2], hash[i+3]);
+	}
+	return buf;
+}
+
+void applog_hash(void *hash)
+{
+	char s[128] = {'\0'};
+	applog(LOG_DEBUG, "%s", format_hash(s, (unsigned char*) hash));
+}
+
+#define printpfx(n,h) \
+	printf("%11s: %s\n", n, format_hash(s, (uint8_t*) h))
+
+void print_hash_tests(void)
+{
+	unsigned char *scratchbuf = NULL;
+	char hash[128], s[80];
+	char buf[128] = { 0 };
+	int scrypt_n = 1024;
+
+	scratchbuf = (unsigned char*) calloc(128, 1024);
+
+	printf("CPU HASH ON EMPTY BUFFER RESULTS:\n\n");
+
+	hex2bin(buf, "700000005d385ba114d079970b29a9418fd0549e7d68a95c7f168621a314201000000000578586d149fd07b22f3a8a347c516de7052f034d2b76ff68e0d6ecff9b77a45489e3fd511732011df0731000", 80);
+
+	//buf[0] = 1; buf[64] = 2; // for endian tests
+
+	for (algorithm_t* algo = algos; algo->name; algo++) {
+		if (algo->init_contexts) algo->init_contexts(&scrypt_n);
+		if (algo->simplehash) {
+			algo->simplehash(hash, buf);
+			printpfx(algo->name, hash);
+		}
+		if (algo->free_contexts) algo->free_contexts(&scrypt_n);
+	}
+
+	printf("\n");
+
+	free(scratchbuf);
+}

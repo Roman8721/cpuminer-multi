@@ -23,7 +23,7 @@ void init_myriadcoin_groestl_contexts(void *dummy)
 	sph_sha256_init(&ctx.sha2);
 }
 
-static void myriadcoin_groestlhash(void *output, const void *input)
+void myriadcoin_groestlhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

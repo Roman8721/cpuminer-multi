@@ -165,6 +165,7 @@ static char const usage2[] =
 #endif
         "\
       --benchmark       run in offline benchmark mode\n\
+      --cputest         debug hashes from cpu algorithms\n\
       --cpu-affinity    set process affinity to cpu core(s), mask 0x3 for cores 0 and 1\n\
       --cpu-priority    set process priority (default: 0 idle, 2 normal to 5 highest)\n\
   -c, --config=FILE     load a JSON-format configuration file\n\
@@ -189,6 +190,7 @@ static struct option const options[] = {
         { "benchmark", 0, NULL, 1005 },
         { "cert", 1, NULL, 1001 },
         { "config", 1, NULL, 'c' },
+        { "cputest", 0, NULL, 1006 },
         { "cpu-affinity", 1, NULL, 1020 },
         { "cpu-priority", 1, NULL, 1021 },
         { "debug", 0, NULL, 'D' },
@@ -1741,6 +1743,9 @@ static void parse_arg(int key, char *arg) {
     case 1003:
         want_longpoll = false;
         break;
+    case 1006:
+        print_hash_tests();
+        exit(0);
     case 1007:
         want_stratum = false;
         break;

@@ -64,7 +64,7 @@ void init_x15_contexts(void *dummy)
 	sph_whirlpool_init(&ctx.whirlpool);
 }
 
-static void x15hash(void *output, const void *input)
+void x15hash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

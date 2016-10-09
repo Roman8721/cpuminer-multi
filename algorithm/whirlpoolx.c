@@ -22,7 +22,7 @@ void init_whirlpoolx_contexts(void *dummy)
 	sph_whirlpool_init(&ctx.whirlpool);
 }
 
-static void whirlpoolxhash(void *output, const void *input)
+void whirlpoolxhash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

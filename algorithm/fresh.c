@@ -28,7 +28,7 @@ void init_fresh_contexts(void *dummy)
 	sph_echo512_init(&ctx.echo);
 }
 
-static void freshhash(void* output, const void* input)
+void freshhash(void* output, const void* input)
 {
 	uint32_t hash[16];
 

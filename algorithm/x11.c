@@ -50,7 +50,7 @@ void init_x11_contexts(void *dummy)
 	sph_echo512_init(&ctx.echo);
 }
 
-static void x11hash(void *output, const void *input)
+void x11hash(void *output, const void *input)
 {
 	uint32_t hash[16];
 

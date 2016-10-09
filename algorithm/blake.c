@@ -18,7 +18,7 @@ void init_blake_contexts()
 	sph_blake256_init(&ctx.blake);
 }
 
-static void blakehash(void *output, const void *input)
+void blakehash(void *output, const void *input)
 {
 	uint32_t hash[16];
 
