@@ -44,8 +44,9 @@
  *
  * @return 0 if the key is generated correctly; -1 if there is an error (usually due to lack of memory for allocation)
  */
-int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *salt, int32_t saltlen, int64_t timeCost, const int16_t nRows, const int16_t nCols)
+int LYRA2(void *K, uint64_t kLen, const void *pwd, uint64_t pwdlen, const void *salt, uint64_t saltlen, uint64_t timeCost, const uint64_t nRows, const uint64_t nCols, const int64_t BLOCK_LEN)
 {
+
     //============================= Basic variables ============================//
     int64_t row = 2; //index of row to be processed
     int64_t prev = 1; //index of prev (last row ever computed/modified)
@@ -55,7 +56,6 @@ int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *sa
     int64_t window = 2; //Visitation window (used to define which rows can be revisited during Setup)
     int64_t gap = 1; //Modifier to the step, assuming the values 1 or -1
     int64_t i; //auxiliary iteration counter
-    int64_t v64; // 64bit var for memcpy
     //==========================================================================/
 
     //========== Initializing the Memory Matrix and pointers to it =============//
@@ -63,8 +63,6 @@ int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *sa
 
     const int64_t ROW_LEN_INT64 = BLOCK_LEN_INT64 * nCols;
     const int64_t ROW_LEN_BYTES = ROW_LEN_INT64 * 8;
-    // for Lyra2REv2, nCols = 4, v1 was using 8
-    const int64_t BLOCK_LEN = (nCols == 4) ? BLOCK_LEN_BLAKE2_SAFE_INT64 : BLOCK_LEN_BLAKE2_SAFE_BYTES;
 
     i = (int64_t)ROW_LEN_BYTES * nRows;
     uint64_t *wholeMatrix = malloc(i);
@@ -106,23 +104,18 @@ int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *sa
     memset(ptrByte, 0, nBlocksInput * BLOCK_LEN_BLAKE2_SAFE_BYTES - (saltlen + pwdlen));
 
     //Concatenates the basil: every integer passed as parameter, in the order they are provided by the interface
-    memcpy(ptrByte, &kLen, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
-    v64 = pwdlen;
-    memcpy(ptrByte, &v64, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
-    v64 = saltlen;
-    memcpy(ptrByte, &v64, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
-    v64 = timeCost;
-    memcpy(ptrByte, &v64, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
-    v64 = nRows;
-    memcpy(ptrByte, &v64, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
-    v64 = nCols;
-    memcpy(ptrByte, &v64, sizeof(int64_t));
-    ptrByte += sizeof(uint64_t);
+    memcpy(ptrByte, &kLen, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
+    memcpy(ptrByte, &pwdlen, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
+    memcpy(ptrByte, &saltlen, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
+    memcpy(ptrByte, &timeCost, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
+    memcpy(ptrByte, &nRows, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
+    memcpy(ptrByte, &nCols, sizeof (uint64_t));
+    ptrByte += sizeof (uint64_t);
 
     //Now comes the padding
     *ptrByte = 0x80; //first byte of padding: right after the password
@@ -180,8 +173,8 @@ int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *sa
         do {
             //Selects a pseudorandom index row*
             //------------------------------------------------------------------------------------------
-            rowa = state[0] & (unsigned int)(nRows-1);  //(USE THIS IF nRows IS A POWER OF 2)
-            //rowa = state[0] % nRows; //(USE THIS FOR THE "GENERIC" CASE)
+            //rowa = ((unsigned int)state[0]) & (nRows-1);	//(USE THIS IF nRows IS A POWER OF 2)
+            rowa = ((uint64_t) (state[0])) % nRows; //(USE THIS FOR THE "GENERIC" CASE)
             //------------------------------------------------------------------------------------------
 
             //Performs a reduced-round duplexing operation over M[row*] XOR M[prev], updating both M[row*] and M[row]
@@ -192,8 +185,8 @@ int LYRA2(void *K, int64_t kLen, const void *pwd, int32_t pwdlen, const void *sa
 
             //updates row: goes to the next row to be computed
             //------------------------------------------------------------------------------------------
-            row = (row + step) & (unsigned int)(nRows-1); //(USE THIS IF nRows IS A POWER OF 2)
-            //row = (row + step) % nRows; //(USE THIS FOR THE "GENERIC" CASE)
+            //row = (row + step) & (nRows-1);	//(USE THIS IF nRows IS A POWER OF 2)
+            row = (row + step) % nRows; //(USE THIS FOR THE "GENERIC" CASE)
             //------------------------------------------------------------------------------------------
 
         } while (row != 0);

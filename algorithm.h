@@ -46,6 +46,7 @@ typedef enum {
     ALGO_X15,         /* X15 Whirlpool */
     ALGO_LYRA2RE,     /* Lyra2RE */
     ALGO_LYRA2REV2,   /* Lyra2RE rev2 */
+    ALGO_XZC,         /* Xzc */
     ALGO_PLUCK,       /* Pluck */
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
@@ -87,6 +88,7 @@ SCANHASH(x15);
 SCANHASH(hmq1725);
 SCANHASH(lyra2re);
 SCANHASH(lyra2rev2);
+SCANHASH(xzc);
 SCANHASH(pluck);
 SCANHASH(groestl);
 SCANHASH(myriadcoin_groestl);

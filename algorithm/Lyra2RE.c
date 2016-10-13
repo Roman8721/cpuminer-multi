@@ -45,7 +45,7 @@ void lyra2rehash(void *output, const void *input)
 	sph_keccak256 (&ctx.keccak,hashA, 32);
 	sph_keccak256_close(&ctx.keccak, hashB);
 
-	LYRA2((void*)hashA, 32, (const void*)hashB, 32, (const void*)hashB, 32, 1, 8, 8);
+	LYRA2((void*)hashA, 32, (const void*)hashB, 32, (const void*)hashB, 32, 1, 8, 8, BLOCK_LEN_BLAKE2_SAFE_BYTES);
 
 	sph_skein256 (&ctx.skein, hashA, 32);
 	sph_skein256_close(&ctx.skein, hashB);

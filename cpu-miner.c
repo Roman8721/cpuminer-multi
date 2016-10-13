@@ -553,6 +553,7 @@ static void share_result(int result, struct work *work, const char *reason) {
     case ALGO_ARGON2:
     case ALGO_AXIOM:
     case ALGO_SCRYPTJANE:
+    case ALGO_XZC:
         sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);
         applog(LOG_INFO, "accepted: %lu/%lu (%.2f%%), %s hash/s %s",
                 accepted_count, accepted_count + rejected_count,
@@ -1056,6 +1057,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work) {
             case ALGO_GROESTL:
             case ALGO_LBRY:
             case ALGO_LYRA2REV2:
+            case ALGO_XZC:
                 work_set_target(work, sctx->job.diff / (256.0 * opt_diff_factor));
                 break;
             case ALGO_KECCAK:
@@ -1223,6 +1225,9 @@ static void *miner_thread(void *userdata) {
             case ALGO_ARGON2:
                 max64 = 0x1ff;
                 break;
+            case ALGO_XZC:
+                max64 = 0x1ff;
+                break;
             default:
                 max64 = 0x1fffffLL;
                 break;
@@ -1258,6 +1263,7 @@ static void *miner_thread(void *userdata) {
             case ALGO_ARGON2:
             case ALGO_AXIOM:
             case ALGO_SCRYPTJANE:
+            case ALGO_XZC:
                 sprintf(s, thr_hashrates[thr_id] >= 1e3 ? "%.0f" : "%.2f",
                         thr_hashrates[thr_id]);
                 applog(LOG_INFO, "thread %d: %llu hashes, %s hash/s", thr_id,
@@ -1283,6 +1289,7 @@ static void *miner_thread(void *userdata) {
                 case ALGO_ARGON2:
                 case ALGO_AXIOM:
                 case ALGO_SCRYPTJANE:
+                case ALGO_XZC:
                     sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.2f", hashrate);
                     applog(LOG_INFO, "Total: %s hash/s", s);
                     break;

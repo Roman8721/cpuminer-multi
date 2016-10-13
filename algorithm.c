@@ -39,6 +39,7 @@ algorithm_t algos[] = {
     { "x15",         ALGO_X15,        "X15", sha256d, sha256d, scanhash_x15, x15hash, NULL, init_x15_contexts, NULL },
     { "lyra2re",     ALGO_LYRA2RE,    "Lyra2RE", sha256d, sha256d, scanhash_lyra2re, lyra2rehash, NULL, init_lyra2re_contexts, NULL },
     { "lyra2rev2",   ALGO_LYRA2REV2,  "Lyra2RE rev2", sha256d, sha256d, scanhash_lyra2rev2, lyra2rev2hash, NULL, init_lyra2rev2_contexts, NULL },
+    { "xzc",         ALGO_XZC,        "Xzc", sha256d, sha256d, scanhash_xzc, xzchash, xzc_prepare_work, NULL, NULL },
     { "groestl",     ALGO_GROESTL,    "Groestl", sha256, sha256, scanhash_groestl, groestlhash, NULL, init_groestl_contexts, NULL },
     { "myr-groestl", ALGO_MYRGROESTL, "Myriadcoin-groestl", sha256, sha256, scanhash_myriadcoin_groestl, myriadcoin_groestlhash, NULL, init_myriadcoin_groestl_contexts, NULL },
     { "myr-groestl2", ALGO_MYRGROESTL,"Myriadcoin-groestl", sha256d, sha256d, scanhash_myriadcoin_groestl, myriadcoin_groestlhash, NULL, init_myriadcoin_groestl_contexts, NULL },

@@ -5,68 +5,68 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "sha3/sph_blake.h"
-#include "sha3/sph_keccak.h"
-#include "sha3/sph_skein.h"
-#include "sha3/sph_cubehash.h"
-#include "sha3/sph_bmw.h"
 #include "lyra2/Lyra2.h"
 
 //#define DEBUG_ALGO
 
 /* Move init out of loop, so init once externally, and then use one single memcpy with that bigger memory block */
 typedef struct {
-	sph_blake256_context	blake;
-	sph_keccak256_context	keccak;
-	sph_cubehash256_context	cubehash;
-	sph_skein256_context	skein;
-	sph_bmw256_context	bmw;
-} lyra2rev2hash_context_holder;
+    uint32_t height;
+} xzchash_context_holder;
 
 /* no need to copy, because close reinit the context */
-static THREADLOCAL lyra2rev2hash_context_holder ctx;
+static THREADLOCAL xzchash_context_holder ctx;
 
-void init_lyra2rev2_contexts(void *dummy)
+void init_xzc_contexts(void *dummy)
 {
-	sph_blake256_init(&ctx.blake);
-	sph_keccak256_init(&ctx.keccak);
-	sph_cubehash256_init(&ctx.cubehash);
-	sph_skein256_init(&ctx.skein);
-	sph_bmw256_init(&ctx.bmw);
+    ctx.height = 0;
+}
+/**
+ * Extract bloc height     L H... here len=3, height=0x1333e8
+ * "...0000000000ffffffff2703e83313062f503253482f043d61105408"
+ */
+static uint32_t getblocheight(struct stratum_job *job)
+{
+    uint32_t height = 0;
+    uint8_t hlen = 0, *p, *m;
+
+    // find 0xffff tag
+    p = (uint8_t*) job->coinbase + 32;
+    m = p + 128;
+    while (*p != 0xff && p < m) p++;
+    while (*p == 0xff && p < m) p++;
+    if (*(p-1) == 0xff && *(p-2) == 0xff) {
+        p++; hlen = *p;
+        p++; height = le16dec(p);
+        p += 2;
+        switch (hlen) {
+            case 4:
+                height += 0x10000UL * le16dec(p);
+                break;
+            case 3:
+                height += 0x10000UL * (*p);
+                break;
+        }
+    }
+    return height;
 }
 
-void lyra2rev2hash(void *output, const void *input)
+void xzc_prepare_work(struct stratum_job *job)
 {
-	uint32_t hashA[16], hashB[16];
-
-	memset(hashA, 0, 16 * sizeof(uint32_t));
-	memset(hashB, 0, 16 * sizeof(uint32_t));
-
-	sph_blake256 (&ctx.blake, input, 80);
-	sph_blake256_close (&ctx.blake, hashA);
-
-	sph_keccak256 (&ctx.keccak,hashA, 32);
-	sph_keccak256_close(&ctx.keccak, hashB);
-
-	sph_cubehash256(&ctx.cubehash, hashB, 32);
-	sph_cubehash256_close(&ctx.cubehash, hashA);
-
-	LYRA2(hashB, 32, hashA, 32, hashA, 32, 1, 4, 4, BLOCK_LEN_BLAKE2_SAFE_INT64);
-
-
-	sph_skein256 (&ctx.skein, hashB, 32);
-	sph_skein256_close(&ctx.skein, hashA);
-
-	sph_cubehash256(&ctx.cubehash, hashA, 32);
-	sph_cubehash256_close(&ctx.cubehash, hashB);
-
-	sph_bmw256(&ctx.bmw, hashB, 32);
-	sph_bmw256_close(&ctx.bmw, hashA);
-
-	memcpy(output, hashA, 32);
+    ctx.height = getblocheight(job);
 }
 
-int scanhash_lyra2rev2(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
+void xzchash(void *output, const void *input)
+{
+	uint32_t hash[16];
+
+	memset(hash, 0, 16 * sizeof(uint32_t));
+	LYRA2((void*)hash, 32, input, 80, input, 80, 2, ctx.height, 256, BLOCK_LEN_BLAKE2_SAFE_INT64);
+
+	memcpy(output, hash, 32);
+}
+
+int scanhash_xzc(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done)
 {
 	uint32_t n = pdata[19] - 1;
@@ -82,6 +82,9 @@ int scanhash_lyra2rev2(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 		0xFF,
 		0xFFF,
 		0xFFFF,
+		0xFFFFF,
+		0xFFFFFF,
+		0xFFFFFFF,
 		0x10000000
 	};
 	uint32_t masks[] = {
@@ -90,6 +93,9 @@ int scanhash_lyra2rev2(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 		0xFFFFFF00,
 		0xFFFFF000,
 		0xFFFF0000,
+		0xFFF00000,
+		0xFF000000,
+		0xF0000000,
 		0
 	};
 
@@ -106,14 +112,14 @@ int scanhash_lyra2rev2(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 			do {
 				pdata[19] = ++n;
 				be32enc(&endiandata[19], n);
-				lyra2rev2hash(hash64, &endiandata);
+				xzchash(hash64, &endiandata);
 #ifndef DEBUG_ALGO
 				if ((!(hash64[7] & mask)) && fulltest(hash64, ptarget)) {
 					*hashes_done = n - first_nonce + 1;
 					return true;
 				}
 #else
-				if (!(n % 0x1000) && !thr_id) printf(".");
+				if (!(n % 0x10) && !thr_id) printf(".\n");
 				if (!(hash64[7] & mask)) {
 					printf("[%d]",thr_id);
 					if (fulltest(hash64, ptarget)) {

@@ -1490,6 +1490,13 @@ void print_hash_tests(void)
 			n = 1388361600;
 		}
 		if (algo->init_contexts) algo->init_contexts(&n);
+		if (algo->type == ALGO_XZC) {
+			char coinbase[128] = { 0 };
+			struct stratum_job job = { 0 };
+			hex2bin(coinbase, "0000000000000000000000000000000000000000000000000000000000000000000000ffffffff2703200000062f503253482f043d61105408", 57);
+			job.coinbase = coinbase;
+			algo->prepare_work(&job);
+		}
 		if (algo->simplehash) {
 			algo->simplehash(hash, buf);
 			printpfx(algo->name, hash);
