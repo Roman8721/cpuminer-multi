@@ -8,6 +8,7 @@
 extern int scanhash_ ## name(int thr_id, uint32_t *pdata, const uint32_t *ptarget, \
                             uint32_t max_nonce, uint64_t *hashes_done); \
 extern void name ## hash(void* output, const void* input); \
+extern void name ## _prepare_work(struct stratum_job *job); \
 extern void init_ ## name ## _contexts(); \
 extern void free_ ## name ## _contexts();
 
@@ -53,6 +54,8 @@ typedef enum {
     ALGO_WHIRL,       /* Whirlcoin */
     ALGO_WHIRLPOOLX,  /* WhirlpoolX */
 } algorithm_type_t;
+
+struct stratum_job;
 
 SCANHASH(sha256d);
 SCANHASH(scrypt);
@@ -104,6 +107,7 @@ typedef struct _algorithm_t {
     int (*scanhash)(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
                     uint32_t max_nonce, uint64_t *hashes_done);
     void (*simplehash)(void *output, const void *input);
+    void (*prepare_work)(struct stratum_job *job);
     void (*init_contexts)(void *params);
     void (*free_contexts)(void *params);
 } algorithm_t;

@@ -1148,6 +1148,7 @@ static void *miner_thread(void *userdata) {
            	            memcmp(((uint8_t*) work.data) + 43, ((uint8_t*) g_work.data) + 43, 33)
            	      : memcmp(work.data, g_work.data, 76))) || stratum.job.diff != olddiff) {
                 stratum_gen_work(&stratum, &g_work);
+                if (opt_algo.prepare_work) opt_algo.prepare_work(&stratum.job);
                 olddiff = stratum.job.diff;
            }
         } else {
@@ -1497,6 +1498,7 @@ static void *stratum_thread(void *userdata) {
                             || strcmp(stratum.work.job_id, g_work.job_id))) {
                 pthread_mutex_lock(&g_work_lock);
                 stratum_gen_work(&stratum, &g_work);
+                if (opt_algo.prepare_work) opt_algo.prepare_work(&stratum.job);
                 time(&g_work_time);
                 pthread_mutex_unlock(&g_work_lock);
                 applog(LOG_INFO, "Stratum detected new block");
@@ -1508,6 +1510,7 @@ static void *stratum_thread(void *userdata) {
                             || strcmp(stratum.job.job_id, g_work.job_id))) {
                 pthread_mutex_lock(&g_work_lock);
                 stratum_gen_work(&stratum, &g_work);
+                if (opt_algo.prepare_work) opt_algo.prepare_work(&stratum.job);
                 time(&g_work_time);
                 pthread_mutex_unlock(&g_work_lock);
                 if (stratum.job.clean) {
