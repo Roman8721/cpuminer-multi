@@ -62,6 +62,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/pluck.c \
 		  algorithm/whirlcoin.c \
 		  algorithm/whirlpoolx.c \
+		  algorithm/xevan.c \
 		  lyra2/Lyra2.c \
 		  lyra2/Sponge.c \
 		  ar2/src/cores.c \

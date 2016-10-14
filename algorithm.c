@@ -37,6 +37,7 @@ algorithm_t algos[] = {
     { "x13",         ALGO_X13,        "X13", sha256d, sha256d, scanhash_x13, x13hash, NULL, init_x13_contexts, NULL },
     { "x14",         ALGO_X14,        "X14", sha256d, sha256d, scanhash_x14, x14hash, NULL, init_x14_contexts, NULL },
     { "x15",         ALGO_X15,        "X15", sha256d, sha256d, scanhash_x15, x15hash, NULL, init_x15_contexts, NULL },
+    { "xevan",       ALGO_XEVAN,      "Xevan", sha256d, sha256d, scanhash_xevan, xevanhash, NULL, init_xevan_contexts, NULL },
     { "lyra2re",     ALGO_LYRA2RE,    "Lyra2RE", sha256d, sha256d, scanhash_lyra2re, lyra2rehash, NULL, init_lyra2re_contexts, NULL },
     { "lyra2rev2",   ALGO_LYRA2REV2,  "Lyra2RE rev2", sha256d, sha256d, scanhash_lyra2rev2, lyra2rev2hash, NULL, init_lyra2rev2_contexts, NULL },
     { "xzc",         ALGO_XZC,        "Xzc", sha256d, sha256d, scanhash_xzc, xzchash, xzc_prepare_work, NULL, NULL },

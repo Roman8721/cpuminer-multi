@@ -44,6 +44,7 @@ typedef enum {
     ALGO_X13,         /* X13 */
     ALGO_X14,         /* X14 */
     ALGO_X15,         /* X15 Whirlpool */
+    ALGO_XEVAN,       /* Xevan: Double X17 */
     ALGO_LYRA2RE,     /* Lyra2RE */
     ALGO_LYRA2REV2,   /* Lyra2RE rev2 */
     ALGO_XZC,         /* Xzc */
@@ -85,6 +86,7 @@ SCANHASH(x11);
 SCANHASH(x13);
 SCANHASH(x14);
 SCANHASH(x15);
+SCANHASH(xevan);
 SCANHASH(hmq1725);
 SCANHASH(lyra2re);
 SCANHASH(lyra2rev2);
