@@ -31,6 +31,7 @@ algorithm_t algos[] = {
     { "qubit",       ALGO_QUBIT,      "Qubit", sha256d, sha256d, scanhash_qubit, qubithash, NULL, init_qubit_contexts, NULL },
     { "pentablake",  ALGO_PENTABLAKE, "pentablake", sha256d, sha256d, scanhash_pentablake, pentablakehash, NULL, init_pentablake_contexts, NULL },
     { "axiom",       ALGO_AXIOM,      "AxiomHash", sha256d, sha256d, scanhash_axiom, axiomhash, NULL, init_axiom_contexts, free_axiom_contexts },
+    { "timetravel",  ALGO_TIMETRAVEL, "TimeTravel", sha256d, sha256d, scanhash_timetravel, timetravelhash, NULL, init_timetravel_contexts, NULL },
     { "sib",         ALGO_SIB,        "Sib", sha256d, sha256d, scanhash_sib, sibhash, NULL, init_sib_contexts, NULL },
     { "veltor",      ALGO_VELTOR,     "Veltor", sha256d, sha256d, scanhash_veltor, veltorhash, NULL, init_veltor_contexts, NULL },
     { "x11",         ALGO_X11,        "X11", sha256d, sha256d, scanhash_x11, x11hash, NULL, init_x11_contexts, NULL },
