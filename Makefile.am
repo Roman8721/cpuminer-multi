@@ -57,6 +57,7 @@ minerd_SOURCES	= elist.h \
 		  algorithm/pentablake.c \
 		  algorithm/axiom.c \
 		  algorithm/timetravel.c \
+		  algorithm/timetravel10.c \
 		  algorithm/Lyra2RE.c \
 		  algorithm/Lyra2RErev2.c \
 		  algorithm/xzc.c \

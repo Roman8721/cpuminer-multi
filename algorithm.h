@@ -52,6 +52,7 @@ typedef enum {
     ALGO_PENTABLAKE,  /* Pentablake */
     ALGO_AXIOM,       /* AxiomHash */
     ALGO_TIMETRAVEL,  /* TimeTravel */
+    ALGO_TIMETRAVEL10,/* TimeTravel10 */
     ALGO_CRYPTONIGHT, /* CryptoNight */
     ALGO_DECRED,      /* Decred */
     ALGO_WHIRL,       /* Whirlcoin */
@@ -98,6 +99,7 @@ SCANHASH(myriadcoin_groestl);
 SCANHASH(pentablake);
 SCANHASH(axiom);
 SCANHASH(timetravel);
+SCANHASH(timetravel10);
 SCANHASH(cryptonight);
 SCANHASH(lbry);
 SCANHASH(whirlcoin);
